@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { DropdownNav } from "@/components/ui/DropdownNav";
-import { navItems } from "@/lib/content";
+import { navItems, type NavItem } from "@/lib/content";
 import { CONTACT } from "@/lib/constants";
 import { useQuoteForm } from "@/lib/quote-form-context";
 
@@ -15,7 +15,7 @@ import { useQuoteForm } from "@/lib/quote-form-context";
 // destinos que hoy, solo cambia la presentación. El menú móvil sigue
 // usando `navItems` tal cual (con "Servicios" como acordeón): ahí sí
 // conviene agrupar, hay menos espacio.
-const desktopNavItems = navItems.flatMap((item) => item.children ?? [item]);
+const desktopNavItems: NavItem[] = navItems.flatMap((item) => item.children ?? [item]);
 
 // Header en dos niveles: fila blanca con el logo a la izquierda, y debajo
 // una franja navy de ancho completo con el menú, el teléfono y el CTA
