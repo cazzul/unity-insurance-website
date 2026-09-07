@@ -15,7 +15,9 @@ import { useQuoteForm } from "@/lib/quote-form-context";
 // destinos que hoy, solo cambia la presentación. El menú móvil sigue
 // usando `navItems` tal cual (con "Servicios" como acordeón): ahí sí
 // conviene agrupar, hay menos espacio.
-const desktopNavItems: NavItem[] = navItems.flatMap((item) => item.children ?? [item]);
+const desktopNavItems: NavItem[] = navItems.flatMap((item) =>
+  item.children ? item.children.map((child): NavItem => child) : [item],
+);
 
 // Header en dos niveles: fila blanca con el logo a la izquierda, y debajo
 // una franja navy de ancho completo con el menú, el teléfono y el CTA
