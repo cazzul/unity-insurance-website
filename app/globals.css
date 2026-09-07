@@ -1,26 +1,145 @@
 @import "tailwindcss";
 
+/* Tokens del sistema de diseño Unity (01 Fundamentos de Marca, v1.0) */
 :root {
+  --unity-navy: #0b2549;
+  --unity-navy-mid: #143a6b;
+  --unity-teal: #0e7c9b;
+  --unity-teal-light: #1b9ab8;
+  --unity-teal-dark: #0b6580;
+  --unity-teal-pale: #7fd3e4;
+  --unity-teal-tint: #e1f1f5;
+  --unity-ink: #16223a;
+  --unity-gray-mid: #3f4e66;
+  --unity-gray: #5a6b82;
+  --unity-line: #c9d3e0;
+  --unity-light: #f2f5f9;
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #16223a;
+
+  /* Colores de resultado (quizzes de Recursos): tonos que la gente ya
+     reconoce como bueno/regular/malo, apagados para no romper la paleta. */
+  --result-good: #2e7d5b;
+  --result-good-tint: #e6f2ec;
+  --result-mid: #b8791a;
+  --result-mid-tint: #faf1e2;
+  --result-bad: #8a2b2b;
+  --result-bad-tint: #f6e3e3;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-unity-navy: var(--unity-navy);
+  --color-unity-navy-mid: var(--unity-navy-mid);
+  --color-unity-teal: var(--unity-teal);
+  --color-unity-teal-light: var(--unity-teal-light);
+  --color-unity-teal-dark: var(--unity-teal-dark);
+  --color-unity-teal-pale: var(--unity-teal-pale);
+  --color-unity-teal-tint: var(--unity-teal-tint);
+  --color-unity-ink: var(--unity-ink);
+  --color-unity-gray-mid: var(--unity-gray-mid);
+  --color-unity-gray: var(--unity-gray);
+  --color-unity-line: var(--unity-line);
+  --color-unity-light: var(--unity-light);
+  --color-result-good: var(--result-good);
+  --color-result-good-tint: var(--result-good-tint);
+  --color-result-mid: var(--result-mid);
+  --color-result-mid-tint: var(--result-mid-tint);
+  --color-result-bad: var(--result-bad);
+  --color-result-bad-tint: var(--result-bad-tint);
+  --font-sans: var(--font-source-sans);
+  --font-heading: var(--font-montserrat);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-source-sans), system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+}
+
+/* El tagline va en Montserrat 800: el sistema usa dos familias, sin script. */
+.font-script {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* Degradado del escudo: 135°, navy a teal. Solo fondos completos, nunca detrás de texto largo. */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, #0b2549 0%, #143a6b 48%, #0e7c9b 100%);
+}
+
+/* Arcos: firma visual. Separan el bloque de texto (lado plano) de la imagen. */
+@utility arc-right {
+  border-radius: 0 46% 46% 0 / 0 50% 50% 0;
+}
+
+@utility arc-bottom {
+  border-radius: 0 0 50% 50% / 0 0 42% 42%;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+/* Degradado inferior sobre el fondo del hero: ancla el texto y los botones
+   sin tapar la escena de marca. En móvil la escena encuadra solo el escudo
+   en una caja angosta y alta, así que el panel sólido es más grande; en
+   escritorio se ve el lockup completo y basta un degradado corto. */
+.hero-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(11, 37, 73, 0.97) 0%,
+    rgba(11, 37, 73, 0.97) 56%,
+    rgba(11, 37, 73, 0) 80%
+  );
+}
+
+@media (min-width: 1024px) {
+  .hero-scrim {
+    background: linear-gradient(
+      to top,
+      rgba(11, 37, 73, 0.92) 0%,
+      rgba(11, 37, 73, 0.55) 30%,
+      rgba(11, 37, 73, 0) 62%
+    );
+  }
+}
+
+/* Escena 3D del hero: funde con el poster cuando el primer frame ya está
+   listo (WebGL montado). Antes de eso, opacidad 0 deja ver el poster. */
+.hero-scene-canvas {
+  opacity: 0;
+  transition: opacity 450ms ease-out;
+}
+
+.hero-scene-canvas.is-ready {
+  opacity: 1;
 }
