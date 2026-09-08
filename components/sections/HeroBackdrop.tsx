@@ -10,7 +10,7 @@ export function HeroBackdrop() {
     <div aria-hidden className="bg-brand-gradient absolute inset-0 overflow-hidden">
       <div className="absolute -right-10 top-10 h-[42%] w-[65%] opacity-80 sm:top-12 sm:h-[48%] sm:w-[55%] lg:right-0 lg:top-1/2 lg:h-[90%] lg:w-[55%] lg:max-w-[720px] lg:-translate-y-1/2 lg:opacity-90">
         <Image
-          src="/images/brand/unity-shield-icon.png"
+          src="/images/brand/unity-shield-icon-hd.webp"
           alt=""
           fill
           priority
