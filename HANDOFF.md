@@ -2,7 +2,7 @@
 
 Documento de coordinación entre agentes que trabajan en paralelo sobre este
 repositorio. Léelo completo antes de tocar código. Última actualización:
-2026-08-31.
+2026-09-08.
 
 ## 1. Estado actual en una frase
 
@@ -10,8 +10,9 @@ Sitio "marca primero" (home + `/nosotros` + `/seguros/[slug]` + `/recursos` +
 `/recursos/[slug]` + `/marca`) terminado y verificado: el CTA de todo el sitio
 abre un modal de consulta, el formulario del final de cada página es la
 conclusión natural, y los recursos (quizzes y guías) se leen completos antes
-de pedir el correo. El hero del home es ahora una escena 3D nativa (WebGL,
-Three.js) del logo de Unity, interactiva, no un video ni un panel lateral; el
+de pedir el correo. El hero del home es un fondo estático de marca (degradado
+navy a teal + escudo de Unity, sin animación ni JS de escena) — reemplazó a la
+escena 3D nativa (WebGL, Three.js) que hubo del 2026-08-31 al 2026-09-08; el
 pop-up de captura por tiempo/scroll ya no aparece en el home, solo dentro de
 las guías; y el copy de todo el sitio se revisó contra `BRANDING/COPYWRITING.MD`.
 El home trae un adelanto de "Nuestra historia" con foto real de equipo. Lint,
@@ -21,7 +22,7 @@ typecheck y build pasan. Consola del navegador limpia.
 
 | Área | Agente | Archivos | Estado |
 |---|---|---|---|
-| Front-end, diseño, copy, contenido | Agente A (front-end) | `app/globals.css`, `app/layout.tsx`, `app/page.tsx`, `app/nosotros/`, `app/seguros/[slug]/`, `app/recursos/`, `app/marca/`, `components/**`, `lib/content.ts`, `lib/constants.ts`, `lib/product-details.ts`, `lib/resources.ts`, `lib/hero-scene/**`, `lib/quote-form-context.tsx`, `lib/lead-capture.ts`, `public/images/**`, `scripts/build-logo-assets.mjs`, `scripts/capture-hero-poster.mjs`, `../FOTOS/LOGO/**`, `PROMPT-FRONTEND.md`, `PENDIENTES.md` | Rediseño "marca primero" (2026-08-30) + hero 3D, copy y pop-up solo en guías (2026-08-31), ver registro |
+| Front-end, diseño, copy, contenido | Agente A (front-end) | `app/globals.css`, `app/layout.tsx`, `app/page.tsx`, `app/nosotros/`, `app/seguros/[slug]/`, `app/recursos/`, `app/marca/`, `components/**`, `lib/content.ts`, `lib/constants.ts`, `lib/product-details.ts`, `lib/resources.ts`, `lib/quote-form-context.tsx`, `lib/lead-capture.ts`, `public/images/**`, `../FOTOS/LOGO/**`, `PROMPT-FRONTEND.md`, `PENDIENTES.md` | Rediseño "marca primero" (2026-08-30), hero 3D → hero estático (2026-08-31 → 2026-09-08), copy y pop-up solo en guías, ver registro |
 | Backend de leads (Airtable) | Agente B (integraciones) | `app/api/leads/route.ts`, la parte de `fetch`/estados de carga y error en `components/ui/ConsultForm.tsx` (antes la lógica vivía en `ConsultSection.tsx`) y en `components/ui/LeadCaptureModal.tsx` (antes `LeadMagnetForm.tsx`), carpeta `../CRM` | En curso; falta variable de entorno (ver §5) |
 
 Regla de convivencia:
@@ -399,3 +400,29 @@ trabajo, con fecha, qué cambió y qué archivos tocó. Sin narrativa larga.
     sigue abriendo desde el hero con la escena 3D encima; pop-up ausente
     en el home y presente en una guía tras 60% de scroll; reduced-motion y
     "sin WebGL" (`--disable-3d-apis`) caen limpio al poster.
+- 2026-09-08 · Agente A · Hero: escena 3D → fondo estático de marca, a
+  pedido del dueño.
+  - **`HeroBackdrop.tsx`** pasó de video/WebGL a un solo fondo:
+    `bg-brand-gradient` (degradado navy a teal ya definido en
+    `globals.css`) con el escudo (`unity-shield-icon.png`, el mismo
+    recorte del lockup que ya se usaba) en un `next/image fill` anclado a
+    la derecha — chico y arriba en móvil para no invadir el bloque de
+    texto, grande y centrado verticalmente desde `lg:`. `.hero-scrim`
+    sigue igual (el degradado que ancla el texto). `Hero.tsx` ya no le
+    pasa `poster`/`posterMobile`/`textureUrl` a `HeroBackdrop`.
+  - **Borrados**: `components/sections/HeroScene.tsx`, todo
+    `lib/hero-scene/` (types, capabilities, animation, logo-geometry,
+    environment, camera-rig, create-hero-scene, unity-logo.json),
+    `scripts/{build-logo-assets,capture-hero-poster}.mjs`,
+    `public/images/hero/` (los dos posters del render 3D),
+    `public/images/brand/unity-shield-albedo-1024.webp` (textura del
+    escudo, sin uso). Dependencia `three` (+ `@types/three`)
+    desinstalada — nada la importa ya. `heroContent` (`lib/content.ts`)
+    perdió `poster`, `posterMobile` y `scene.texture`; conserva
+    `headline`, `tagline`, `subtitle`, `cta`, `ctaSecondary`.
+  - **Por qué**: el dueño pidió volver a una imagen fija, sin la escena
+    interactiva. El pipeline de geometría 3D (§9.3.1 de
+    `PROMPT-FRONTEND.md`, ya retirada) y los activos fuente en
+    `../FOTOS/LOGO/` quedan intactos por si se retoma más adelante.
+  - Verificado: `rm -rf .next && npm run build` limpio (18 páginas), lint
+    limpio, captura CDP en 1440px y 390px sin errores de consola.

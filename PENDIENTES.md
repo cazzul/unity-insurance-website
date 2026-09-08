@@ -93,25 +93,16 @@ Se editan en [components/sections/Testimonials.tsx](components/sections/Testimon
       `splitFeatures` (sección que no se monta). Si se quiere retirarlas de
       ahí también, avisar. La sección "Nuestra historia" del home ahora usa
       una foto real de `public/images/eventos/` (ver más abajo).
-- [x] **Fondo del hero: escena 3D nativa (WebGL), ya no un video**
-      (2026-08-31): a pedido del dueño, el video de marca (logo en un
-      ambiente tipo showroom) se reemplazó por una animación 3D real,
-      interactiva, hecha con Three.js. El logo extruido (escudo + UNITY +
-      INSURANCE GROUP + eslogan) se generó vectorizando el lockup trazado
-      que subió el dueño (`FOTOS/LOGO/unity-lockup-trace.svg` y
-      `unity-lockup-2752.png`) con `scripts/build-logo-assets.mjs`
-      (produce `lib/hero-scene/unity-logo.json` y la textura del escudo).
-      Reacciona al mouse (parallax de cámara y de la luz), al scroll, y
-      tiene una animación de entrada la primera vez que carga; en móvil
-      muestra solo el escudo (el lockup completo mediría menos de 120px de
-      ancho, por debajo del mínimo de marca). Sin librerías de React
-      (`three` vanilla, cargado en diferido tras el evento `load`, nunca
-      antes del LCP). Respeta `prefers-reduced-motion` y cae a un poster
-      estático si no hay WebGL o el dispositivo es de gama baja
-      (`scripts/capture-hero-poster.mjs` genera los posters reales desde la
-      propia escena). El video anterior (v1 abstracto y v2 del showroom)
-      queda archivado en `../FOTOS/FOTOS_GENERADAS/video/` por si se
-      necesita consultar, pero ya no se usa en el sitio.
+- [x] **Fondo del hero: imagen estática de marca** (2026-09-08): tras
+      pasar por un video de marca (2026-08-30) y una escena 3D nativa
+      interactiva con Three.js (2026-08-31), el dueño pidió volver a un
+      fondo fijo. Hoy es un degradado de marca (navy a teal,
+      `bg-brand-gradient`) con el escudo de Unity como elemento gráfico
+      ancorado a la derecha, sin animación ni JS. El video (v1 abstracto y
+      v2 del showroom) sigue archivado en `../FOTOS/FOTOS_GENERADAS/video/`
+      y el pipeline de la geometría 3D (vectorización del lockup trazado
+      del dueño) sigue documentado en el historial de `HANDOFF.md` por si
+      se retoma más adelante; ninguno de los dos se usa en el sitio hoy.
 - [x] **Pop-up de captura por tiempo/scroll, solo en guías** (2026-08-31):
       a pedido del dueño, se quitó del home (`ScrollLeadCapture` ya no se
       monta en `app/page.tsx`). Sigue apareciendo solo dentro de una guía

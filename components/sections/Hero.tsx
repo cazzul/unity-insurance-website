@@ -6,19 +6,15 @@ import { CONTACT } from "@/lib/constants";
 import { useQuoteForm } from "@/lib/quote-form-context";
 import { HeroBackdrop } from "./HeroBackdrop";
 
-// Marca primero: una escena 3D del logo de Unity cubre todo el hero
-// (HeroBackdrop, capa absoluta) y el nombre, el eslogan y la acción se
-// anclan abajo, sobre un degradado, para no pisar el logo.
+// Marca primero: un fondo estático de marca (degradado + escudo) cubre
+// todo el hero (HeroBackdrop, capa absoluta) y el nombre, el eslogan y la
+// acción se anclan abajo, sobre un degradado, para no pisar el logo.
 export function Hero() {
   const { openConsult } = useQuoteForm();
 
   return (
     <section id="inicio" className="relative isolate overflow-hidden">
-      <HeroBackdrop
-        poster={heroContent.poster}
-        posterMobile={heroContent.posterMobile}
-        textureUrl={heroContent.scene.texture}
-      />
+      <HeroBackdrop />
 
       <div className="relative z-10 mx-auto flex min-h-[680px] max-w-7xl flex-col justify-end px-4 pb-10 pt-24 sm:min-h-[700px] md:min-h-[720px] lg:min-h-[760px] lg:px-8 lg:pb-16 lg:pt-40 xl:min-h-[820px]">
         <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white md:text-6xl">

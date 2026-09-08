@@ -139,17 +139,6 @@ export const heroContent = {
     "Seguros para tu familia y tu negocio en Puerto Rico. Comparamos {n} aseguradoras y te explicamos tu póliza antes de firmar.",
   cta: "Agenda tu consulta y orientación",
   ctaSecondary: "Llámanos",
-  // Fondo de pantalla completa: escena 3D nativa (WebGL, Three.js) del
-  // logo de Unity en un ambiente tipo showroom, extruida desde el vector
-  // del lockup (ver scripts/build-logo-assets.mjs). `poster`/`posterMobile`
-  // son fotogramas estáticos: se ven antes de que cargue la escena y si el
-  // usuario prefiere menos movimiento (nunca se monta la escena en ese
-  // caso). `scene.texture` es la textura del degradado real del escudo.
-  poster: "/images/hero/hero-poster.webp",
-  posterMobile: "/images/hero/hero-poster-mobile.webp",
-  scene: {
-    texture: "/images/brand/unity-shield-albedo-1024.webp",
-  },
 };
 
 // Sub-hero: quiénes somos + cifras. Fuente: láminas 01 y 02 de la presentación

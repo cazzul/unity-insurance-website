@@ -132,14 +132,3 @@ h4 {
     );
   }
 }
-
-/* Escena 3D del hero: funde con el poster cuando el primer frame ya está
-   listo (WebGL montado). Antes de eso, opacidad 0 deja ver el poster. */
-.hero-scene-canvas {
-  opacity: 0;
-  transition: opacity 450ms ease-out;
-}
-
-.hero-scene-canvas.is-ready {
-  opacity: 1;
-}

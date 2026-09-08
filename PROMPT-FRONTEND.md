@@ -289,14 +289,13 @@ orientación" y casi siempre abre un modal (`ConsultModal`, montado una vez en
 
 ### 9.3 Hero
 
-- **¿Qué?** La primera pantalla, a pantalla completa. Una escena 3D nativa
-  (WebGL, Three.js) del logo de Unity (escudo + wordmark extruidos, sobre
-  una pared con piso y reflejo, luz que barre) cubre todo el fondo; el
-  nombre, el eslogan, un subtítulo de beneficio y la acción se anclan
-  abajo, sobre un degradado. Reacciona al mouse (parallax de cámara y de
-  la luz) y al scroll, con una animación de entrada la primera vez que
-  carga. Reemplaza el video de marca (2026-08-31, a pedido del dueño: "que
-  no sea un video en loop, que sea parte interactiva de la página").
+- **¿Qué?** La primera pantalla, a pantalla completa. Un fondo estático de
+  marca (degradado navy a teal, `bg-brand-gradient`) con el escudo de
+  Unity como elemento gráfico, ancorado a la derecha; el nombre, el
+  eslogan, un subtítulo de beneficio y la acción se anclan abajo, sobre
+  un degradado. Sin animación, sin video, sin JS de por medio — reemplaza
+  la escena 3D nativa (WebGL, Three.js) que hubo del 2026-08-31 al
+  2026-09-08 (a pedido del dueño: volver a un fondo estático).
 - **¿Cómo?** `Hero.tsx`: `<section>` `relative isolate`, con
   `HeroBackdrop` como capa `absolute inset-0` y el contenido en
   `relative z-10`, anclado abajo (`flex flex-col justify-end`, altura
@@ -306,81 +305,22 @@ orientación" y casi siempre abre un modal (`ConsultModal`, montado una vez en
   `text-unity-teal-pale` → subtítulo de beneficio (`heroContent.subtitle`,
   con `{n}` = `insurers.length`, mismo patrón que `whyUnityPoints`) →
   botón teal "AGENDA TU CONSULTA Y ORIENTACIÓN" (abre el modal) + botón
-  `variant="ghost"` "LLÁMANOS". `HeroBackdrop.tsx`: dos `next/image` con
-  el poster (`hidden md:block` / `md:hidden`, cada uno en un `div
-  relative` — sin eso, `fill` no funciona y Next tira un warning) siempre
-  debajo, y encima `<HeroScene>` si no hay `prefers-reduced-motion:
-  reduce` (nunca se monta en ese caso). `HeroScene.tsx` monta un
-  `<canvas>` y en un `useEffect` espera `load` + idle, revisa
-  `detectHeroSceneSupport()` (`lib/hero-scene/capabilities.ts`: sin
-  WebGL, `hardwareConcurrency`/`deviceMemory` bajos, o `saveData` → no
-  monta la escena), y recién ahí hace `import("@/lib/hero-scene/create-hero-scene")`
-  (único módulo que importa `three`, ~170 KB gzip, fuera del bundle
-  inicial). El canvas empieza en `opacity: 0` (`.hero-scene-canvas` en
-  `globals.css`) y funde a `opacity: 1` cuando `onReady` agrega la clase
-  `is-ready` (primer frame ya renderizado). Encima de todo,
-  `.hero-scrim`: degradado navy de abajo hacia arriba que ancla el texto.
-  **Es responsive a propósito, en dos niveles**: (1) el degradado es más
-  sólido en móvil que en escritorio (`@media (min-width: 1024px)` en
-  `globals.css`) porque el encuadre de la escena es más angosto ahí; (2)
-  la propia escena, vía `CameraRig` (`lib/hero-scene/camera-rig.ts`),
-  encuadra el **lockup completo** desde 768px de ancho y **solo el
-  escudo** por debajo (`chooseLayout`) — con el lockup completo en un
-  móvil angosto, el escudo mediría menos de 120px, por debajo del mínimo
-  de marca. Antes de tocar cualquier número de encuadre (`f`, `g`, `sy`
-  en `camera-rig.ts`) o del scrim, probar en 375-390px con una captura
-  real vía CDP, no solo en escritorio.
-- **¿Por qué?** El dueño pidió reemplazar el video por algo "parte de la
-  página", no un loop cerrado. La geometría 3D se generó vectorizando el
-  lockup trazado que el dueño subió (no hay logo vectorial oficial
-  todavía; ver §9.3.1 para el pipeline). El h1, el eslogan y el subtítulo
-  en HTML siguen ahí por SEO y accesibilidad (lectores de pantalla,
-  buscadores, y el caso sin WebGL/`prefers-reduced-motion`), anclados
-  abajo para no pisar el logo de la escena.
+  `variant="ghost"` "LLÁMANOS". `HeroBackdrop.tsx`: `div` con
+  `bg-brand-gradient` de fondo completo, el escudo
+  (`public/images/brand/unity-shield-icon.png`) en un `next/image fill`
+  posicionado a la derecha (más chico y anclado arriba en móvil para no
+  invadir el bloque de texto; grande y centrado verticalmente desde
+  `lg:`), y encima `.hero-scrim` (degradado navy de abajo hacia arriba
+  que ancla el texto). El degradado es más sólido en móvil que en
+  escritorio (`@media (min-width: 1024px)` en `globals.css`).
+- **¿Por qué?** El dueño pidió volver a un fondo estático (2026-09-08).
+  El h1, el eslogan y el subtítulo en HTML siguen ahí por SEO y
+  accesibilidad, anclados abajo para no pisar el escudo.
 - **¿Cuándo?** Lo primero que se ve tras el header.
-- **¿Cuánto?** La escena no bloquea el LCP (carga diferida, `aria-hidden`,
-  se pausa fuera del viewport con `IntersectionObserver` y con la pestaña
-  oculta); el poster sí carga con `priority`. Textos y rutas en
-  `heroContent` (`lib/content.ts`): `subtitle`, `poster`, `posterMobile`,
-  `scene.texture`.
-
-### 9.3.1 Pipeline de la geometría 3D del logo (no se rehace a mano)
-
-- **¿Qué?** Cómo se pasa de un SVG trazado (sin capas, sin nombres) a la
-  malla 3D del hero. Solo hace falta rehacerlo si cambia el logo.
-- **¿Cómo?** `scripts/build-logo-assets.mjs` lee
-  `../FOTOS/LOGO/unity-lockup-trace.svg` (280 `<path>` planos, ningún
-  `<g>`) y `unity-lockup-2752.png` (mismo lockup, degradado real).
-  **Hallazgo clave, verificado a mano**: el `path[0]` (`fill="#FEFEFE"`)
-  tiene 42 subtrazados — el lienzo completo (se descarta) más los 41
-  contornos EXTERIORES del escudo, UNITY, INSURANCE GROUP y el eslogan.
-  Pero los huecos reales (el negativo del escudo, los contadores de
-  letras como O/A/R/P/G) **no están ahí**: son 20 `<path>` casi blancos
-  **separados**, en otras posiciones del array. El script los encuentra
-  por luminosidad y los asigna al contorno que los contiene por
-  punto-en-polígono (centroide del hueco dentro del polígono del
-  contorno). Los contornos exteriores se resuelven con
-  `ShapePath.toShapes()` de `three` (el mismo algoritmo de regla de
-  relleno "nonzero" que usa un navegador para SVG — no hace falta
-  reimplementar detección de huecos). Salida:
-  `lib/hero-scene/unity-logo.json` (contornos en unidades de mundo, 1
-  unidad = 1000px del SVG, origen en el centro del lockup) y
-  `public/images/brand/unity-shield-albedo-1024.webp` (textura del
-  escudo, recortada del PNG). `npm run` no tiene alias corto; se corre
-  con `node scripts/build-logo-assets.mjs`. El script imprime
-  aserciones (conteos esperados: 1 escudo, 5 letras de UNITY, 14 de
-  INSURANCE GROUP, 21 del eslogan, 20 huecos asignados) — si algo no
-  cuadra, avisa por consola antes de escribir el JSON.
-- **¿Por qué?** Vectorizar a mano 41 contornos con Béziers cúbicas no es
-  viable; el truco fue verificar en Chrome real (renderizando el SVG con
-  cada `<path>` aislado) qué representaba cada pieza antes de asumir nada,
-  porque la primera lectura (asumir que los huecos vivían dentro del
-  mismo `path[0]`) era razonable pero incorrecta.
-- **¿Cuándo?** Solo si el logo cambia. Los activos fuente viven en
-  `../FOTOS/LOGO/` (copias; los originales quedan en la raíz de
-  `UNITY SEGUROS/`), fuera de `public/` a propósito.
-- **¿Cuánto?** `lib/hero-scene/unity-logo.json` pesa ~108 KB (se importa
-  estático en el chunk diferido de la escena, no en el bundle inicial).
+- **¿Cuánto?** Sin JS adicional: la imagen del escudo carga con
+  `priority` igual que antes el poster. Textos en `heroContent`
+  (`lib/content.ts`): `headline`, `tagline`, `subtitle`, `cta`,
+  `ctaSecondary` (ya no lleva `poster`/`posterMobile`/`scene`).
 
 ### 9.3b Nuestra historia (`#historia`, solo en el home)
 
@@ -616,11 +556,9 @@ artículos escritos. NUNCA inventes una reseña.
      bloquean el scroll del body mientras están abiertos.
   4. Los formularios validan con HTML (`required`) y llaman a
      `POST /api/leads`. Menú móvil se cierra al navegar.
-  5. La escena 3D del hero respeta `prefers-reduced-motion`
-     (`useSyncExternalStore` con `matchMedia` en `HeroBackdrop.tsx`): si el
-     sistema pide menos movimiento, se muestra el poster estático y
-     `HeroScene` ni se monta (no se descarga `three`). También se pausa
-     sola fuera del viewport y con la pestaña oculta.
+  5. El fondo del hero es una sola imagen estática (`HeroBackdrop.tsx`,
+     sin JS): no hay animación que pausar ni preferencia de movimiento
+     que respetar.
 - **¿Por qué?** Cada fricción (un salto brusco, un menú que no cierra, un
   select vacío) pierde clientes.
 - **¿Cuándo?** En cada interacción. Nada recarga la página.
