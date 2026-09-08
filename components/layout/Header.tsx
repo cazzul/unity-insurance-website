@@ -10,24 +10,26 @@ import { navItems } from "@/lib/content";
 import { CONTACT } from "@/lib/constants";
 import { useQuoteForm } from "@/lib/quote-form-context";
 
-// Header compacto de una sola franja navy (logo a la izquierda, nav +
-// botones a la derecha), en vez de las dos filas de antes. En móvil el
-// logo y el botón de consulta quedan en la barra, con el menú de siempre
-// en un panel desplegable.
+// Header compacto de una sola franja blanca (logo a color a la izquierda,
+// nav + botones a la derecha). El lockup a color (unity-lockup.svg) lleva
+// el texto "Unity Insurance Group" en navy/gris — solo se lee bien sobre
+// fondo claro, por eso el header es blanco y no navy. En móvil el logo y
+// el botón de consulta quedan en la barra, con el menú de siempre en un
+// panel desplegable.
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openConsult } = useQuoteForm();
 
   return (
-    <header className="sticky top-0 z-50 bg-unity-navy">
+    <header className="sticky top-0 z-50 border-b border-unity-line bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center">
           <Image
-            src="/images/brand/unity-logo-notag.png"
+            src="/images/brand/unity-lockup.svg"
             alt="Unity Insurance Group"
-            width={881}
-            height={288}
-            className="h-9 max-h-[44px] w-auto object-contain brightness-0 invert md:h-10"
+            width={2752}
+            height={1538}
+            className="h-9 max-h-[44px] w-auto object-contain md:h-10"
             style={{ width: "auto" }}
             priority
           />
@@ -36,14 +38,14 @@ export function Header() {
         <nav className="hidden items-center lg:flex">
           {navItems.map((item) => (
             <div key={item.label} className="whitespace-nowrap px-2.5 py-2 xl:px-3">
-              <DropdownNav item={item} dark size="sm" />
+              <DropdownNav item={item} size="sm" />
             </div>
           ))}
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex xl:gap-3">
           <Button
-            variant="ghost"
+            variant="outline"
             href={CONTACT.phoneHref}
             className="!px-5 !py-3 !text-xs gap-2 whitespace-nowrap xl:!px-7 xl:!py-3.5 xl:!text-[15px]"
           >
@@ -69,7 +71,7 @@ export function Header() {
           </Button>
           <button
             type="button"
-            className="rounded-2xl p-2 text-white"
+            className="rounded-2xl p-2 text-unity-navy"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           >
@@ -79,20 +81,19 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-white/10 bg-unity-navy px-4 py-4 lg:hidden">
+        <div className="border-t border-unity-line bg-white px-4 py-4 lg:hidden">
           <nav className="space-y-1">
             {navItems.map((item) => (
               <DropdownNav
                 key={item.label}
                 item={item}
                 mobile
-                dark
                 onNavigate={() => setMobileOpen(false)}
               />
             ))}
           </nav>
           <div className="mt-4 flex flex-col gap-3">
-            <Button variant="ghost" href={CONTACT.phoneHref} className="w-full gap-2">
+            <Button variant="outline" href={CONTACT.phoneHref} className="w-full gap-2">
               <Phone className="h-4 w-4" />
               Llámanos
             </Button>

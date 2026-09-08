@@ -485,3 +485,48 @@ trabajo, con fecha, qué cambió y qué archivos tocó. Sin narrativa larga.
   `lib/leads/{normalize,airtable,make}.ts` (+ tests), `vitest.config.mts`,
   `package.json`, `.env.example`, `.gitignore`, `docs/superpowers/**`,
   `HANDOFF.md`, `PENDIENTES.md`.
+- 2026-09-08 (tarde) · Agente A · Logo SVG oficial del dueño: header
+  vuelve a blanco, escudo del hero pasa de WebP a SVG.
+  - El dueño proveyó el lockup completo y el "escudo solo" como SVG
+    (exportados de una herramienta de diseño, 115 `<path>` con clases
+    de color para el efecto de degradado 3D falso). **Ambos archivos
+    llevan un `<path>` de fondo blanco sólido integrado** (todo el
+    lienzo 2752×1538, clase `.a`/`.s0`) — no son transparentes tal
+    cual se recibieron. El "escudo solo" además **no es un recorte
+    real**: es el mismo lockup completo con el `viewBox` angosto
+    (898×1538) recortando solo la vista, con el resto del contenido
+    (incluido el fondo blanco de 2752px) técnicamente presente fuera
+    del área visible. Se quitó ese primer `<path>` de fondo con un
+    script de Node (regex sobre el `d="m0 2q1376 0 2752 0..."`, el
+    mismo patrón en los dos archivos) para dejar el arte realmente
+    transparente. Originales intactos en
+    `../FOTOS/LOGO/{unity-lockup-full,unity-shield-only}.svg`;
+    versiones transparentes en
+    `../FOTOS/LOGO/{unity-lockup-transparent,unity-shield-transparent}.svg`
+    y copiadas a `public/images/brand/{unity-lockup,unity-shield}.svg`.
+  - **Header vuelve a fondo blanco** (`Header.tsx`): el lockup a color
+    lleva el texto "UNITY INSURANCE GROUP" en navy/gris (clase `.ac`
+    `#1d264f` y gris), invisible sobre el navy de la franja compacta
+    del cambio anterior de hoy — confirmado visualmente antes de
+    decidir el cambio. Botón "Llámanos" pasó de `variant="ghost"`
+    (borde blanco, para fondo oscuro) a `variant="outline"` (borde
+    navy, para fondo claro); `DropdownNav` ya no lleva la prop `dark`.
+  - **Escudo del hero**: `HeroBackdrop.tsx` cambia de
+    `unity-shield-icon-hd.webp` (rasterizado, se veía algo borroso al
+    escalarlo grande) a `unity-shield.svg` (vectorial, nítido a
+    cualquier tamaño). Mismo posicionamiento y tamaños responsive de
+    antes, solo cambió el `src`.
+  - **`/marca` y `Footer.tsx`** también actualizados al SVG nuevo (a
+    pedido del dueño, para consistencia): las 4 instancias de
+    `unity-logo.png` en `/marca` y la de `logo-mark.png` en el footer
+    pasan a `unity-lockup.svg`, mismo patrón `brightness-0 invert`
+    donde ya se usaba sobre fondo oscuro.
+  - Borrados (sin uso en ningún lado tras el cambio):
+    `public/images/brand/{unity-logo,unity-logo-notag}.png`,
+    `public/images/brand/unity-shield-icon-hd.webp`,
+    `public/logo-mark.png`.
+  - Verificado: `rm -rf .next && npm run build` limpio (18 páginas);
+    `npx eslint` acotado limpio; captura CDP del header + hero en
+    1440px y 390px, y de la portada + sección "Logo" de `/marca` en
+    1440px — todo sin errores de consola, sin caja blanca residual
+    detrás del logo sobre fondos oscuros.

@@ -265,24 +265,29 @@ orientación" y casi siempre abre un modal (`ConsultModal`, montado una vez en
 
 ### 9.2 Header (navegación)
 
-- **¿Qué?** Barra fija arriba, una sola franja de fondo **navy**, logo
-  **en blanco** a la izquierda (2026-09-08: antes eran dos filas —
-  blanca con el logo a color, y debajo una franja navy con el menú).
-- **¿Cómo?** `justify-between`: logo (`unity-logo-notag.png` con
-  `brightness-0 invert` para volverlo blanco) → `<nav>` con
-  `navItems` (`lib/content.ts`, 3 grupos: "Por qué Unity" como enlace
-  directo a `/#por-que-unity`, "Seguros y Productos" dropdown con los 6
-  seguros a `/seguros/[slug]`, "Guías y Recursos" dropdown con Recursos
-  y FAQ) → a la derecha, "Llámanos" (`variant="ghost"`, borde blanco,
-  `tel:`) + "CONSULTA Y ORIENTACIÓN" (`variant="primary"`, abre el
-  modal). Los botones son más chicos por defecto y crecen a su tamaño
-  normal desde `xl:` (1280px) para que quepan sin partir línea en
-  1024-1279px. En móvil: hamburguesa + botón "CONSULTA"; el panel
-  desplegable reusa los mismos 3 grupos con `DropdownNav` en modo
-  `mobile dark`. El menú móvil se CIERRA solo al tocar un enlace.
+- **¿Qué?** Barra fija arriba, una sola franja de fondo **blanco**, logo
+  **a color** a la izquierda (2026-09-08 tarde: volvió a blanco — el
+  lockup SVG a color, `unity-lockup.svg`, lleva el texto "Unity
+  Insurance Group" en navy/gris, que solo se lee bien sobre fondo claro;
+  antes de esto, el mismo día por la mañana, el header había sido navy
+  con el logo en blanco — ver registro en HANDOFF.md).
+- **¿Cómo?** `justify-between`: logo (`unity-lockup.svg`, SVG vectorial
+  a color) → `<nav>` con `navItems` (`lib/content.ts`, 3 grupos: "Por
+  qué Unity" como enlace directo a `/#por-que-unity`, "Seguros y
+  Productos" dropdown con los 6 seguros a `/seguros/[slug]`, "Guías y
+  Recursos" dropdown con Recursos y FAQ) → a la derecha, "Llámanos"
+  (`variant="outline"`, borde navy, `tel:`) + "CONSULTA Y ORIENTACIÓN"
+  (`variant="primary"`, abre el modal). Los botones son más chicos por
+  defecto y crecen a su tamaño normal desde `xl:` (1280px) para que
+  quepan sin partir línea en 1024-1279px. En móvil: hamburguesa + botón
+  "CONSULTA"; el panel desplegable reusa los mismos 3 grupos con
+  `DropdownNav` (sin `dark`, ya que el panel también es blanco). El menú
+  móvil se CIERRA solo al tocar un enlace.
 - **¿Por qué?** El dueño pidió algo "más compacto, un solo color de
-  header, no dividido" (boceto de referencia). "Nosotros" y "FAQ" salen
-  como enlaces sueltos del header (FAQ pasó a vivir dentro de "Guías y
+  header, no dividido" (boceto de referencia) y luego proveyó el SVG
+  vectorial oficial del lockup, que exigió volver a fondo blanco para
+  que el texto del logo se lea bien. "Nosotros" y "FAQ" salen como
+  enlaces sueltos del header (FAQ pasó a vivir dentro de "Guías y
   Recursos"; Nosotros solo queda en el footer, que ya lo tenía en su
   columna "Más"). El botón de teléfono cambió de "Contáctanos" (a una
   sección) a "Llámanos" (`tel:` directo) a pedido del dueño.
@@ -312,12 +317,14 @@ orientación" y casi siempre abre un modal (`ConsultModal`, montado una vez en
   botón teal "AGENDA TU CONSULTA Y ORIENTACIÓN" (abre el modal) + botón
   `variant="ghost"` "LLÁMANOS". `HeroBackdrop.tsx`: `div` con
   `bg-brand-gradient` de fondo completo, el escudo
-  (`public/images/brand/unity-shield-icon.png`) en un `next/image fill`
-  posicionado a la derecha (más chico y anclado arriba en móvil para no
-  invadir el bloque de texto; grande y centrado verticalmente desde
-  `lg:`), y encima `.hero-scrim` (degradado navy de abajo hacia arriba
-  que ancla el texto). El degradado es más sólido en móvil que en
-  escritorio (`@media (min-width: 1024px)` en `globals.css`).
+  (`public/images/brand/unity-shield.svg`, SVG vectorial provisto por
+  el dueño — nítido a cualquier tamaño, reemplaza al WebP rasterizado
+  del 2026-09-08 mañana) en un `next/image fill` posicionado a la
+  derecha (más chico y anclado arriba en móvil para no invadir el
+  bloque de texto; grande y centrado verticalmente desde `lg:`), y
+  encima `.hero-scrim` (degradado navy de abajo hacia arriba que ancla
+  el texto). El degradado es más sólido en móvil que en escritorio
+  (`@media (min-width: 1024px)` en `globals.css`).
 - **¿Por qué?** El dueño pidió volver a un fondo estático (2026-09-08).
   El h1, el eslogan y el subtítulo en HTML siguen ahí por SEO y
   accesibilidad, anclados abajo para no pisar el escudo.
