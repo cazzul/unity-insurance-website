@@ -23,7 +23,7 @@ typecheck y build pasan. Consola del navegador limpia.
 | Área | Agente | Archivos | Estado |
 |---|---|---|---|
 | Front-end, diseño, copy, contenido | Agente A (front-end) | `app/globals.css`, `app/layout.tsx`, `app/page.tsx`, `app/nosotros/`, `app/seguros/[slug]/`, `app/recursos/`, `app/marca/`, `components/**`, `lib/content.ts`, `lib/constants.ts`, `lib/product-details.ts`, `lib/resources.ts`, `lib/quote-form-context.tsx`, `lib/lead-capture.ts`, `public/images/**`, `../FOTOS/LOGO/**`, `PROMPT-FRONTEND.md`, `PENDIENTES.md` | Rediseño "marca primero" (2026-08-30), hero 3D → hero estático (2026-08-31 → 2026-09-08), copy y pop-up solo en guías, ver registro |
-| Backend de leads (Airtable) | Agente B (integraciones) | `app/api/leads/route.ts`, la parte de `fetch`/estados de carga y error en `components/ui/ConsultForm.tsx` (antes la lógica vivía en `ConsultSection.tsx`) y en `components/ui/LeadCaptureModal.tsx` (antes `LeadMagnetForm.tsx`), carpeta `../CRM` | En curso; falta variable de entorno (ver §5) |
+| Backend de leads (Airtable + Make + WhatsApp) | Agente B (integraciones) | `app/api/leads/route.ts`, `lib/leads/**` (normalize, airtable, make + pruebas), `docs/superpowers/**`, `.env.example`, `vitest.config.mts`; la parte de `handleSubmit`/`fetch` en `components/ui/ConsultForm.tsx` y `components/ui/LeadCaptureModal.tsx` | Listo (2026-09-08): cada envío crea un registro en Airtable (base "Unity Insurance CRM", tabla Leads) y avisa al grupo de WhatsApp "Leads Unity" vía Make + Green API. Diseño en `docs/superpowers/specs/2026-09-08-leads-airtable-whatsapp-design.md` |
 
 Regla de convivencia:
 
@@ -118,15 +118,31 @@ pedirlo el dueño): Merriweather + Open Sans, botones de 6 px, teal `#1ECAD3`.
 
 ## 5. Riesgos abiertos (leer antes de probar el formulario)
 
-- **El formulario hoy siempre falla al enviar en local.** `QuoteSection`
-  hace `POST /api/leads`; la ruta exige `process.env.AIRTABLE_API_KEY` y
-  **no existe `.env.local`** en el repo. Sin la variable, la API responde
-  500 y el usuario ve "Hubo un error al enviar". Agente B: crear
-  `.env.local` (está en `.gitignore`) con `AIRTABLE_API_KEY=...` y confirmar
-  que la base `appILZGkXur2MUFYY` / tabla `tblHvViPZO4etWUh2` (Prospectos)
-  tiene los campos `Nombre`, `Teléfono`, `Email`, `Fuente`, `Estado`,
-  `Fecha de entrada`, `Notas`. Nunca poner la llave en código ni en este
-  archivo.
+- **Formulario en local:** `POST /api/leads` necesita `.env.local` con
+  `AIRTABLE_API_KEY` y `MAKE_LEADS_WEBHOOK_URL` (copiar `.env.example`; el
+  token se crea en airtable.com/create/tokens con acceso a la base "Unity
+  Insurance CRM" `appsTFfScFOoCwuTo`). Sin ellas la ruta responde 500 y el
+  formulario muestra "Hubo un error al enviar". En producción las variables
+  ya están cargadas en Vercel (Production y Preview). La ruta escribe en la
+  tabla Leads `tblxELd9tOgKTSAIK` usando los **nombres** de columna
+  (`Nombre`, `Teléfono`, `Correo Electrónico`, `Seguro de Interés`, `Status`,
+  `Fecha de Llegada`, `Fuente`, `Notas del formulario`, `Consentimiento`):
+  renombrar una columna rompe el envío (Airtable responde 422 → el
+  visitante ve error). Los productos del sitio se mapean a opciones de
+  "Seguro de Interés" en `lib/leads/normalize.ts`; si se añade un producto,
+  añadir la opción en Airtable y en ese mapa. Pruebas: `npm test` (41
+  pruebas). Nunca poner tokens en código ni en este archivo.
+- **Aviso a WhatsApp vía Make (pendiente de higiene, no de funcionalidad):**
+  el escenario `6167444` "Unity Seguros — Leads a WhatsApp" en Make envía
+  correctamente al grupo "Leads Unity" hoy, pero el módulo sigue siendo un
+  HTTP genérico con el token de Green API escrito en texto plano dentro del
+  mapper (visible a cualquiera con acceso de edición al escenario). Falta
+  migrar a una conexión oficial GREEN-API y al módulo `green-api:SendMessage`
+  — ver `docs/superpowers/plans/2026-09-08-leads-airtable-whatsapp.md`
+  Task 7 (diferida a pedido del dueño el 2026-09-08: "funciona, no lo
+  toques todavía"). Si `notificarMake` falla, el lead ya quedó guardado en
+  Airtable (`notificado: false` en la respuesta), así que un fallo de Make
+  nunca pierde un lead.
 - Los avisos de error de los formularios ya usan el rojo del sistema
   (`#8A2B2B` sobre `#F6E3E3`), alineado el 2026-08-29.
 - `LeadCaptureModal` (recursos) envía `nombre`, `email` y `notas` — **sin
@@ -456,3 +472,17 @@ trabajo, con fecha, qué cambió y qué archivos tocó. Sin narrativa larga.
     1024px (breakpoint `lg`, el punto más apretado), 390px cerrado y
     390px con el menú abierto, y el dropdown "Seguros y Productos"
     desplegado — todo sin errores de consola.
+- 2026-09-08 · Agente B · Integración de leads completa: la ruta guarda en
+  Airtable (tabla Leads, campos nuevos `Fuente`, `Notas del formulario`,
+  `Consentimiento`; opciones nuevas `Comercial` y `Escolar` en "Seguro de
+  Interés") y luego avisa al webhook de Make, que reenvía al grupo de
+  WhatsApp "Leads Unity" vía Green API. Vitest añadido (42 pruebas). Las
+  variables `AIRTABLE_API_KEY` y `MAKE_LEADS_WEBHOOK_URL` ya están en
+  Vercel (Production y Preview) y en `.env.local`. Trabajo hecho en un
+  worktree aislado (`worktree-leads-airtable-whatsapp`) y fusionado a
+  `main`. Pendiente (no bloqueante, ver §5): migrar el escenario de Make
+  del módulo HTTP genérico a la conexión oficial GREEN-API para sacar el
+  token del texto plano. Archivos: `app/api/leads/route.ts` (+ test),
+  `lib/leads/{normalize,airtable,make}.ts` (+ tests), `vitest.config.mts`,
+  `package.json`, `.env.example`, `.gitignore`, `docs/superpowers/**`,
+  `HANDOFF.md`, `PENDIENTES.md`.

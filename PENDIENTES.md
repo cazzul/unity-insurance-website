@@ -35,16 +35,26 @@ Se editan en [components/sections/Testimonials.tsx](components/sections/Testimon
 
 ## 3. Conexiones y automatizaciones (pospuesto por decisión del dueño)
 
-- [~] Envío real del formulario de cotización: **ya conectado a Airtable**
-      vía `POST /api/leads` ([app/api/leads/route.ts](app/api/leads/route.ts)).
-      Falta crear `.env.local` con `AIRTABLE_API_KEY`; sin ella el envío
-      falla con error 500 (ver HANDOFF.md §5).
+- [x] Envío real del formulario: **conectado a Airtable y WhatsApp**
+      (2026-09-08). `POST /api/leads` crea el registro en la tabla Leads de
+      "Unity Insurance CRM" y avisa al grupo "Leads Unity" vía Make + Green
+      API. Detalle en `docs/superpowers/specs/2026-09-08-leads-airtable-whatsapp-design.md`.
 - [ ] Analítica y conversiones (GA4, Meta Pixel, medir llamadas y WhatsApp
       como conversiones)
-- [ ] Seguimiento interno del lead (CRM, notificación al agente en tiempo
-      real). Dato clave del research: llamar a un lead en 5 minutos vs. 30
-      aumenta 100x la probabilidad de contactarlo (estudio MIT/InsideSales).
-      Esta es la automatización de mayor impacto cuando se retome.
+- [x] Notificación al agente en tiempo real: cada lead llega al grupo de
+      WhatsApp "Leads Unity" con enlace al registro de Airtable (2026-09-08).
+      Falta definir el proceso interno de seguimiento (quién toma el lead,
+      cuándo pasa a "Contactado"). Dato clave del research: llamar a un lead
+      en 5 minutos vs. 30 aumenta 100x la probabilidad de contactarlo
+      (estudio MIT/InsideSales).
+- [ ] Rotar el token de Green API en console.green-api.com: sigue en texto
+      plano dentro del módulo HTTP del escenario de Make (funciona, pero es
+      un pendiente de higiene de secretos). Migrar el escenario a la
+      conexión oficial GREEN-API y al módulo `green-api:SendMessage`
+      (diferido a pedido del dueño el 2026-09-08; ver Task 7 de
+      `docs/superpowers/plans/2026-09-08-leads-airtable-whatsapp.md`).
+- [ ] Antispam del formulario (honeypot o Turnstile) si empiezan a llegar
+      leads basura al grupo de WhatsApp.
 
 ## 3b. Promesas que dependen de una decisión del negocio (research CRO)
 
@@ -170,6 +180,10 @@ Se editan en [components/sections/Testimonials.tsx](components/sections/Testimon
       `/nosotros`; ver `storyContent` en [lib/content.ts](lib/content.ts).
 - [x] Dominio confirmado por el flyer oficial: www.unityinsurancepr.com
       (coincide con el `metadataBase` en [app/layout.tsx](app/layout.tsx)).
-- [ ] Hosting y despliegue
+- [~] Hosting y despliegue: producción en Vercel
+      (`unity-insurance-website.vercel.app`, proyecto
+      `unity-insurance-website`, deploy automático desde `main`). Falta
+      apuntar `unityinsurancepr.com` a Vercel: hoy responde desde un servidor
+      de parking (verificado 2026-09-08).
 - [ ] Prueba con 5-10 usuarios reales intentando cotizar (fase "Entregar y
       probar" del framework)
