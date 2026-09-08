@@ -15,7 +15,7 @@
 - Next `16.3.0`, React `19.2.8`, TypeScript `^5`. Node 22 en local, 24.x en Vercel. Antes de usar una API de Next, leer `node_modules/next/dist/docs/` (esta versión tiene cambios).
 - Solo se añaden `devDependencies` (`vitest`, `vite-tsconfig-paths`). Ninguna dependencia de runtime nueva.
 - `npm run lint`, `npm run build` y `npm test` limpios antes de cada commit.
-- Commits en español, sin prefijos tipo `feat:` (estilo del repo: "Reemplazar el hero 3D..."), y con el trailer `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
+- Commits en español, sin prefijos tipo `feat:` (estilo del repo: "Reemplazar el hero 3D..."), y con el trailer `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`.
 - Nunca commitear `.env.local`. Nunca escribir el token de Green API ni el token de Airtable en archivos del repo, en HANDOFF, ni en este plan.
 - Otro agente (Agente A) edita este repo en paralelo. Releer cada archivo del disco justo antes de editarlo. No tocar `components/**`: el contrato del payload de `ConsultForm` y `LeadCaptureModal` no cambia.
 - Nombres exactos de columnas de la tabla Leads (con acentos): `Nombre`, `Teléfono`, `Correo Electrónico`, `Seguro de Interés`, `Status`, `Fecha de Llegada`, `Fuente`, `Notas del formulario`, `Consentimiento`.
@@ -151,7 +151,7 @@ Esperado: `.gitignore` muestra `.env*` y, más abajo, `!.env.example`. Confirmar
 git add .env.example .gitignore
 git commit -m "Añadir .env.example con las variables de la integración de leads
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 ---
@@ -220,7 +220,7 @@ Expected: sin errores ni warnings.
 git add vitest.config.mts package.json package-lock.json
 git commit -m "Añadir Vitest para probar la integración de leads
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 ---
@@ -518,7 +518,7 @@ Expected: sin errores.
 git add lib/leads/normalize.ts lib/leads/normalize.test.ts
 git commit -m "Normalizar el payload de leads en un módulo con pruebas
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 ---
@@ -746,7 +746,7 @@ npm run lint
 git add lib/leads/airtable.ts lib/leads/airtable.test.ts
 git commit -m "Crear registros de leads en la tabla Leads de Airtable
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 ---
@@ -923,7 +923,7 @@ npm run lint
 git add lib/leads/make.ts lib/leads/make.test.ts
 git commit -m "Avisar al webhook de Make con el lead y su enlace de Airtable
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 ---
@@ -1131,7 +1131,7 @@ git commit -m "Guardar cada lead en Airtable antes de avisar a Make
 La ruta ya no lleva la URL del webhook en el código: usa
 AIRTABLE_API_KEY y MAKE_LEADS_WEBHOOK_URL.
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 ---
@@ -1262,7 +1262,7 @@ Esperado: `Accepted`. En menos de 10 segundos, el grupo "Leads Unity" recibe el 
 git add docs/integraciones/make-blueprint-leads-whatsapp.json
 git commit -m "Guardar el blueprint del escenario de Make de leads a WhatsApp
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 ```
 
 ---
@@ -1519,7 +1519,7 @@ Reemplazar `- [ ] Hosting y despliegue` por:
 git add HANDOFF.md PENDIENTES.md
 git commit -m "Documentar la integración de leads con Airtable y WhatsApp
 
-Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 git push origin main
 ```
 
