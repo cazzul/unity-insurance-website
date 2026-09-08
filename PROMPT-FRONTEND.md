@@ -265,27 +265,32 @@ orientación" y casi siempre abre un modal (`ConsultModal`, montado una vez en
 
 ### 9.2 Header (navegación)
 
-- **¿Qué?** Barra fija arriba, fondo **blanco**, logo **a color**.
-- **¿Cómo?** El contenedor es `justify-between` con dos grupos: el menú a
-  la **izquierda** (`Servicios ▾` con los 6 seguros a `/seguros/[slug]`,
-  Por qué Unity, Recursos, FAQ, Nosotros, Contacto) y, a la **derecha**,
-  agrupados: teléfono (`outline`, borde navy) + botón "CONSULTA Y
-  ORIENTACIÓN" (teal) + el logo a color, sin el eslogan
-  (`/images/brand/unity-logo-notag.png`, `max-h-[44px]`), como último
-  elemento y dentro de un `<Link href="/">`. En móvil: hamburguesa a la
-  izquierda; a la derecha, botón "CONSULTA" + el mismo logo. El menú móvil
-  se CIERRA solo al tocar un enlace. Los enlaces usan `/#ancla` para
-  funcionar desde cualquier página.
-- **¿Por qué?** El logo en la esquina superior derecha es el estándar
-  visual que ancla la marca durante el scroll (pedido del dueño). Fondo
-  blanco porque el logo a color lleva texto navy: sobre navy sería
-  ilegible sin invertirlo, y para eso ya existe el header navy anterior.
-- **¿Cuándo?** Siempre visible (sticky, z-50). El botón de consulta abre el
-  modal (`openConsult()` del contexto, `lib/quote-form-context.tsx`); ya no
-  hace scroll a ningún ancla.
-- **¿Cuánto?** 6 enlaces. Los dropdowns abren con hover en escritorio y con
-  tap en móvil. "Reclamaciones" y "Blog" siguen fuera del menú hasta tener
-  contenido (PENDIENTES).
+- **¿Qué?** Barra fija arriba, una sola franja de fondo **navy**, logo
+  **en blanco** a la izquierda (2026-09-08: antes eran dos filas —
+  blanca con el logo a color, y debajo una franja navy con el menú).
+- **¿Cómo?** `justify-between`: logo (`unity-logo-notag.png` con
+  `brightness-0 invert` para volverlo blanco) → `<nav>` con
+  `navItems` (`lib/content.ts`, 3 grupos: "Por qué Unity" como enlace
+  directo a `/#por-que-unity`, "Seguros y Productos" dropdown con los 6
+  seguros a `/seguros/[slug]`, "Guías y Recursos" dropdown con Recursos
+  y FAQ) → a la derecha, "Llámanos" (`variant="ghost"`, borde blanco,
+  `tel:`) + "CONSULTA Y ORIENTACIÓN" (`variant="primary"`, abre el
+  modal). Los botones son más chicos por defecto y crecen a su tamaño
+  normal desde `xl:` (1280px) para que quepan sin partir línea en
+  1024-1279px. En móvil: hamburguesa + botón "CONSULTA"; el panel
+  desplegable reusa los mismos 3 grupos con `DropdownNav` en modo
+  `mobile dark`. El menú móvil se CIERRA solo al tocar un enlace.
+- **¿Por qué?** El dueño pidió algo "más compacto, un solo color de
+  header, no dividido" (boceto de referencia). "Nosotros" y "FAQ" salen
+  como enlaces sueltos del header (FAQ pasó a vivir dentro de "Guías y
+  Recursos"; Nosotros solo queda en el footer, que ya lo tenía en su
+  columna "Más"). El botón de teléfono cambió de "Contáctanos" (a una
+  sección) a "Llámanos" (`tel:` directo) a pedido del dueño.
+- **¿Cuándo?** Siempre visible (sticky, z-50). El botón de consulta abre
+  el modal (`openConsult()` del contexto, `lib/quote-form-context.tsx`).
+- **¿Cuánto?** 3 grupos de nav. Los dropdowns abren con hover en
+  escritorio y con tap en móvil. "Reclamaciones" y "Blog" siguen fuera
+  del menú hasta tener contenido (PENDIENTES).
 
 ### 9.3 Hero
 

@@ -426,3 +426,33 @@ trabajo, con fecha, qué cambió y qué archivos tocó. Sin narrativa larga.
     `../FOTOS/LOGO/` quedan intactos por si se retoma más adelante.
   - Verificado: `rm -rf .next && npm run build` limpio (18 páginas), lint
     limpio, captura CDP en 1440px y 390px sin errores de consola.
+- 2026-09-08 (tarde) · Agente A · Header: de dos filas a una sola franja
+  navy compacta, a pedido del dueño (boceto de referencia).
+  - **`Header.tsx`** reescrito: una sola `<div justify-between>` en vez
+    de la fila blanca + franja navy de antes. Logo en blanco
+    (`brightness-0 invert` sobre `unity-logo-notag.png`, antes a
+    color). Botones más chicos por defecto, tamaño completo desde
+    `xl:` (1280px) — a 1024-1279px el texto partía línea con el tamaño
+    fijo anterior.
+  - **`navItems`** (`lib/content.ts`) pasó de 6 entradas sueltas
+    (Servicios, Por qué Unity, Recursos, FAQ, Nosotros, Contacto) a 3
+    grupos: "Por qué Unity" (enlace), "Seguros y Productos" (dropdown,
+    antes "Servicios"), "Guías y Recursos" (dropdown nuevo: Recursos +
+    FAQ). `desktopNavItems`/`flatMap` en `Header.tsx` (que aplanaba
+    "Servicios" en 6 enlaces sueltos para escritorio) se eliminó — ya
+    no hace falta, los 3 grupos se mapean directo con `DropdownNav`.
+    "Nosotros" y "FAQ" salen del header (FAQ vive en "Guías y
+    Recursos"; Nosotros solo queda en el footer, que ya lo tenía en su
+    columna "Más" — confirmado antes de quitarlo).
+  - **Botón de teléfono**: "Contáctanos" (enlazaba a `/#contacto`) pasó
+    a "Llámanos" (`variant="ghost"`, `CONTACT.phoneHref`, `tel:`
+    directo) a pedido del dueño — antes abría una sección, ahora llama
+    directo.
+  - Verificado: `rm -rf .next && npm run build` limpio (18 páginas);
+    `npx eslint` acotado a los archivos tocados limpio (el `npm run
+    lint` global falla por un ENOENT ajeno en
+    `.claude/worktrees/leads-airtable-whatsapp/.next/`, de otra sesión
+    en curso — no relacionado con este cambio); captura CDP en 1440px,
+    1024px (breakpoint `lg`, el punto más apretado), 390px cerrado y
+    390px con el menú abierto, y el dropdown "Seguros y Productos"
+    desplegado — todo sin errores de consola.

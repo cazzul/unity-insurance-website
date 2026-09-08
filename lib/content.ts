@@ -118,18 +118,21 @@ export const products: Product[] = [
 
 // Los enlaces con "/#" funcionan desde cualquier página del sitio.
 export const navItems: NavItem[] = [
+  { label: "Por qué Unity", href: "/#por-que-unity" },
   {
-    label: "Servicios",
+    label: "Seguros y Productos",
     children: products.map((p) => ({
       label: p.title,
       href: `/seguros/${p.id}`,
     })),
   },
-  { label: "Por qué Unity", href: "/#por-que-unity" },
-  { label: "Recursos", href: "/#recursos" },
-  { label: "FAQ", href: "/#faq" },
-  { label: "Nosotros", href: "/nosotros" },
-  { label: "Contacto", href: "/#contacto" },
+  {
+    label: "Guías y Recursos",
+    children: [
+      { label: "Recursos gratis", href: "/#recursos" },
+      { label: "Preguntas frecuentes", href: "/#faq" },
+    ],
+  },
 ];
 
 export const heroContent = {
