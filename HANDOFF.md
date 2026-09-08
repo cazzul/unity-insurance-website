@@ -530,3 +530,37 @@ trabajo, con fecha, qué cambió y qué archivos tocó. Sin narrativa larga.
     1440px y 390px, y de la portada + sección "Logo" de `/marca` en
     1440px — todo sin errores de consola, sin caja blanca residual
     detrás del logo sobre fondos oscuros.
+- 2026-09-08 (tarde, más tarde) · Agente A · Logo definitivo: el dueño
+  proveyó el render oficial en PNG con transparencia real (dentro de
+  un SVG-contenedor con la imagen embebida en base64), reemplazando
+  los SVG de paths reconstruidos del cambio anterior.
+  - El dueño compartió "Unity Logo Transparente.svg" — un SVG que en
+    realidad solo envuelve una imagen PNG en base64
+    (`<image href="data:image/png;base64,...">`), no paths
+    vectoriales. Extraído con Node (`base64` → `Buffer` → archivo):
+    2757×1540, `hasAlpha: true` confirmado con `sharp().metadata()` —
+    transparencia real, no simulada por el visor.
+  - **`unity-lockup.webp`**: el PNG completo convertido a WebP
+    (calidad 92) con `sharp`, 425 KB → 142 KB. Reemplaza
+    `unity-lockup.svg` (que tenía las facetas del degradado
+    reconstruidas a mano vía paths con clases de color — visualmente
+    correcto pero menos fiel que el render oficial).
+  - **`unity-shield.webp`**: escudo solo, recortado de la misma
+    imagen con `sharp().extract()` + `.trim()` en dos pasos (extraer
+    región aproximada primero, recortar transparencia sobrante en un
+    segundo paso — `.trim()` fallaba con "bad extract area" al
+    encadenarlo directo tras `.extract()` en la misma pipeline).
+    727×789, WebP calidad 92, 135 KB → 59 KB. Reemplaza
+    `unity-shield.svg`.
+  - Los dos `.svg` reconstruidos del cambio anterior de hoy se
+    borraron; todas las referencias (`Header.tsx`, `Footer.tsx`,
+    `HeroBackdrop.tsx`, las 4 en `app/marca/page.tsx`) pasaron de
+    `.svg` a `.webp`, ajustando `width`/`height` a las dimensiones
+    reales del PNG (2757×1538 en vez de 2752×1538 — el ancho real del
+    render es 2757, no 2752).
+  - Verificado: `rm -rf .next && npm run build` limpio (18 páginas);
+    `npm run lint` global limpio; captura CDP del header+hero en
+    1440px y 390px, y de `/marca` en 1440px — sin errores de consola.
+    Calidad visual notablemente mejor que el SVG reconstruido: el
+    degradado del escudo se ve con la textura real del render 3D
+    original en vez de facetas planas por clase de color.

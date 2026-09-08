@@ -11,7 +11,7 @@ import { CONTACT } from "@/lib/constants";
 import { useQuoteForm } from "@/lib/quote-form-context";
 
 // Header compacto de una sola franja blanca (logo a color a la izquierda,
-// nav + botones a la derecha). El lockup a color (unity-lockup.svg) lleva
+// nav + botones a la derecha). El lockup a color (unity-lockup.webp) lleva
 // el texto "Unity Insurance Group" en navy/gris — solo se lee bien sobre
 // fondo claro, por eso el header es blanco y no navy. En móvil el logo y
 // el botón de consulta quedan en la barra, con el menú de siempre en un
@@ -25,10 +25,10 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center">
           <Image
-            src="/images/brand/unity-lockup.svg"
+            src="/images/brand/unity-lockup.webp"
             alt="Unity Insurance Group"
-            width={2752}
-            height={1538}
+            width={2757}
+            height={1540}
             className="h-9 max-h-[44px] w-auto object-contain md:h-10"
             style={{ width: "auto" }}
             priority

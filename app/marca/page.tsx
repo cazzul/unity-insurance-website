@@ -117,7 +117,7 @@ export default function MarcaPage() {
         <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 hidden w-[62%] bg-unity-light arc-right lg:block" />
         <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1fr_1fr] lg:px-12 lg:py-28">
           <div className="rounded-2xl bg-unity-light p-8 lg:bg-transparent lg:p-0">
-            <Image src="/images/brand/unity-lockup.svg" alt="Unity Insurance Group" width={2752} height={1538} className="h-20 w-auto md:h-24" priority />
+            <Image src="/images/brand/unity-lockup.webp" alt="Unity Insurance Group" width={2757} height={1540} className="h-20 w-auto md:h-24" priority />
             <div className="mt-10 font-heading text-[15px] font-bold uppercase tracking-[0.22em] text-unity-teal">Sistema de diseño</div>
             <h1 className="mt-5 text-5xl font-extrabold leading-none tracking-[-0.02em] text-unity-navy md:text-[62px]">
               Fundamentos
@@ -229,14 +229,14 @@ export default function MarcaPage() {
             <Kicker>Versión principal</Kicker>
             <div className="relative mt-16 ml-11 inline-block">
               <div aria-hidden className="absolute -inset-11 rounded-lg border border-dashed border-unity-teal-light" />
-              <Image src="/images/brand/unity-lockup.svg" alt="Unity Insurance Group" width={2752} height={1538} className="block h-[88px] w-auto" />
+              <Image src="/images/brand/unity-lockup.webp" alt="Unity Insurance Group" width={2757} height={1540} className="block h-[88px] w-auto" />
             </div>
             <p className="mt-16 max-w-lg text-base leading-[1.65] text-unity-gray-mid">El área de respiro equivale a la altura del escudo dividida entre dos. Ningún elemento entra en esa zona, ni fotos, ni curvas, ni texto.</p>
           </div>
           <div className="flex flex-col gap-7">
             <div className="flex min-h-[180px] flex-col justify-between rounded-2xl bg-brand-gradient p-9">
               <Kicker light>Sobre fondo oscuro</Kicker>
-              <Image src="/images/brand/unity-lockup.svg" alt="Unity Insurance Group en blanco" width={2752} height={1538} className="mt-6 h-14 w-auto brightness-0 invert" />
+              <Image src="/images/brand/unity-lockup.webp" alt="Unity Insurance Group en blanco" width={2757} height={1540} className="mt-6 h-14 w-auto brightness-0 invert" />
             </div>
             <div className="rounded-2xl bg-white p-9">
               <Kicker>Isotipo solo</Kicker>
@@ -379,7 +379,7 @@ export default function MarcaPage() {
       <section className="relative overflow-hidden bg-brand-gradient">
         <div aria-hidden className="absolute -right-32 -top-40 h-[420px] w-[420px] rounded-full border border-white/20" />
         <div className="relative mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-12 px-6 py-16 lg:px-12">
-          <Image src="/images/brand/unity-lockup.svg" alt="Unity Insurance Group" width={2752} height={1538} className="h-12 w-auto brightness-0 invert" />
+          <Image src="/images/brand/unity-lockup.webp" alt="Unity Insurance Group" width={2757} height={1540} className="h-12 w-auto brightness-0 invert" />
           <div className="flex flex-wrap gap-10 text-[17px] text-white">
             {[
               ["Teléfono", CONTACT.phone],

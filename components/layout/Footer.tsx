@@ -18,10 +18,10 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
             <Image
-              src="/images/brand/unity-lockup.svg"
+              src="/images/brand/unity-lockup.webp"
               alt="Unity Insurance Group"
-              width={2752}
-              height={1538}
+              width={2757}
+              height={1540}
               className="mb-4 h-12 w-auto brightness-0 invert"
               style={{ width: "auto" }}
             />
