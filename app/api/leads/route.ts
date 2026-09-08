@@ -1,83 +1,48 @@
-import { NextRequest, NextResponse } from "next/server";
+// app/api/leads/route.ts
+// Flujo de un lead del sitio:
+//   formulario → Airtable (tabla Leads, fuente de verdad) → Make (webhook) → WhatsApp (Green API, grupo "Leads Unity").
+// Si Airtable falla, el visitante ve el error y las alternativas de contacto (502).
+// Si Make falla, el lead ya está guardado: se registra el error y se responde 200.
+// Diseño: docs/superpowers/specs/2026-09-08-leads-airtable-whatsapp-design.md
+import { AirtableError, crearLeadEnAirtable, type AirtableRecord } from "@/lib/leads/airtable";
+import { construirPayloadMake, notificarMake } from "@/lib/leads/make";
+import { parseLeadBody } from "@/lib/leads/normalize";
 
-// Envío de leads a Make (webhook) → WhatsApp vía CallMeBot.
-// El webhook de Make también puede reenviar a HubSpot cuando esté configurado.
-const MAKE_WEBHOOK_URL =
-  "https://hook.us2.make.com/iqdy7iiuizvqz631orbapj9ghpszwspx";
-
-// Etiqueta legible del producto para el mensaje de WhatsApp
-const PRODUCTO_LABEL: Record<string, string> = {
-  auto: "Auto",
-  hogar: "Hogar",
-  comercial: "Comercial",
-  cancer: "Cáncer",
-  viajero: "Viajero",
-  escolar: "Escolar",
-};
-
-// Mismas reglas que migration/clean_excel.py: 7 dígitos -> área 787; salida E.164.
-function normalizarTelefono(v: unknown): string | null {
-  if (typeof v !== "string" || !v.trim()) return null;
-  let d = v.replace(/\D/g, "");
-  if (d.length === 7) d = "787" + d;
-  if (d.length === 10) d = "1" + d;
-  return d.length === 11 && d.startsWith("1") ? `+${d}` : null;
-}
-
-function texto(v: unknown): string {
-  return typeof v === "string" ? v.trim() : "";
-}
-
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const nombre = texto(body.nombre);
-    const email = texto(body.email).toLowerCase();
-    const telefono = normalizarTelefono(body.telefono);
-    const producto = texto(body.producto);
-    const notas = texto(body.notas);
-
-    // ConsultForm manda nombre + teléfono (+ email opcional); LeadCaptureModal
-    // manda nombre + email. Basta nombre + (teléfono o correo).
-    if (!nombre || (!telefono && !email)) {
-      return NextResponse.json(
-        { error: "Nombre y (teléfono o correo) son requeridos" },
-        { status: 400 }
-      );
-    }
-
-    const esLeadMagnet = !producto && notas.length > 0;
-    const seguroLabel = PRODUCTO_LABEL[producto] ?? producto ?? "No especificado";
-
-    // Payload que recibe Make → WhatsApp (CallMeBot) + Google Sheets (futuro)
-    const makePayload = {
-      nombre,
-      email: email || "",
-      telefono: telefono || "",
-      seguro: seguroLabel,
-      fuente: esLeadMagnet ? "lead_magnet" : "pagina_web",
-      notas: notas || "",
-      pagina: req.headers.get("referer") ?? "https://unityinsurancepr.com",
-      fecha: new Date().toISOString(),
-    };
-
-    const res = await fetch(MAKE_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(makePayload),
-    });
-
-    if (!res.ok) {
-      console.error("Make webhook error:", res.status);
-      return NextResponse.json({ error: "Webhook error" }, { status: 502 });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error("Lead submission error:", err);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+export async function POST(req: Request) {
+  // Se leen en cada petición (no al cargar el módulo) para fallar con claridad
+  // si faltan y para poder probarlas.
+  const apiKey = process.env.AIRTABLE_API_KEY;
+  const webhookUrl = process.env.MAKE_LEADS_WEBHOOK_URL;
+  if (!apiKey || !webhookUrl) {
+    console.error("Faltan variables de entorno: AIRTABLE_API_KEY y/o MAKE_LEADS_WEBHOOK_URL");
+    return Response.json({ error: "Configuración incompleta del servidor" }, { status: 500 });
   }
+
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return Response.json({ error: "Cuerpo inválido" }, { status: 400 });
+  }
+
+  const pagina = req.headers.get("referer") ?? "https://unityinsurancepr.com";
+  const parsed = parseLeadBody(body, pagina);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
+  }
+
+  const ahora = new Date();
+  let registro: AirtableRecord;
+  try {
+    registro = await crearLeadEnAirtable(parsed.lead, { apiKey, now: () => ahora });
+  } catch (err) {
+    console.error("Airtable error:", err instanceof AirtableError ? err.message : err);
+    return Response.json({ error: "No se pudo guardar la consulta" }, { status: 502 });
+  }
+
+  const notificado = await notificarMake(construirPayloadMake(parsed.lead, registro.url, ahora), {
+    webhookUrl,
+  });
+
+  return Response.json({ success: true, id: registro.id, notificado });
 }
