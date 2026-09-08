@@ -93,6 +93,16 @@ describe("POST /api/leads", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it("responde 502 y no llama a Make si el fetch a Airtable lanza un error de red", async () => {
+    const fetchMock = vi.fn(async () => {
+      throw new TypeError("fetch failed");
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    const res = await POST(peticion(consulta));
+    expect(res.status).toBe(502);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it("responde 200 con notificado=false si Make falla", async () => {
     vi.stubGlobal("fetch", fetchQueResponde(200, 500));
     const res = await POST(peticion(consulta));

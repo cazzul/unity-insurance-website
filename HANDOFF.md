@@ -149,10 +149,9 @@ pedirlo el dueño): Merriweather + Open Sans, botones de 6 px, teal `#1ECAD3`.
   teléfono**. La ruta (2026-08-30) ya no exige teléfono si llega correo:
   requiere `nombre` + (`telefono` o `email`). La nota describe el origen
   ("Lead magnet: <recurso> (resultado)" en quizzes, "Newsletter: próximas
-  guías..." en guías) y queda en el campo `Notas` de Airtable; `Fuente`
-  sigue siendo `"Website"`. Si el CRM quiere distinguir la fuente, Agente B
-  decide el valor (es un campo de opciones; no inventar valores desde el
-  front).
+  guías..." en guías) y queda en el campo `Notas del formulario`; `Fuente`
+  es `"Recurso (lead magnet)"` para estos leads (ver detalle de columnas
+  arriba en este mismo punto).
 - El texto "Enviando..." del botón y el spinner son de Agente B; respetan la
   regla de mayúsculas porque `Button` la aplica por CSS.
 - Logos de aseguradoras: 15 cargados en `public/images/insurers/`. MAPFRE,

@@ -53,6 +53,12 @@ Se editan en [components/sections/Testimonials.tsx](components/sections/Testimon
       conexión oficial GREEN-API y al módulo `green-api:SendMessage`
       (diferido a pedido del dueño el 2026-09-08; ver Task 7 de
       `docs/superpowers/plans/2026-09-08-leads-airtable-whatsapp.md`).
+      De paso, considerar rotar también la URL del webhook de Make (hoy
+      sin autenticación propia): cualquiera con esa URL puede disparar
+      mensajes al grupo de WhatsApp y consumir operaciones del plan
+      gratuito de Make. La URL aparece en texto plano en los ejemplos de
+      `curl` de ese mismo plan; el repositorio es privado, pero rotarla
+      cierra la exposición si se quiere.
 - [ ] Antispam del formulario (honeypot o Turnstile) si empiezan a llegar
       leads basura al grupo de WhatsApp.
 

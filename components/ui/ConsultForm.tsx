@@ -55,7 +55,8 @@ export function ConsultForm({ onSuccess }: ConsultFormProps) {
           email: formData.email.trim(),
           producto: selectedProduct,
           // HANDOFF: Agente A añadió la casilla de consentimiento del sistema
-          // de diseño. La ruta hoy ignora este campo; queda por si el CRM lo usa.
+          // de diseño. La ruta usa este campo: solo lo escribe en Airtable
+          // cuando llega true.
           consentimiento: true,
         }),
       });

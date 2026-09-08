@@ -69,7 +69,6 @@ export function LeadCaptureModal({
           nombre: nombre.trim(),
           email: email.trim(),
           notas: note,
-          consentimiento: true,
         }),
       });
       if (!res.ok) throw new Error("Error al enviar");

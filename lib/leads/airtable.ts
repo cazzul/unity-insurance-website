@@ -73,6 +73,7 @@ export async function crearLeadEnAirtable(lead: Lead, deps: AirtableDeps): Promi
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ fields: construirCampos(lead, ahora) }),
+    signal: AbortSignal.timeout(10000),
   });
   if (!res.ok) throw new AirtableError(res.status, await res.text());
   const data = (await res.json()) as { id: string };
