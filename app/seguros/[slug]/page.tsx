@@ -95,8 +95,30 @@ export default async function ProductPage({ params }: Props) {
 
   const Icon = product.icon;
 
+  const faqSchema =
+    detail.faqs && detail.faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: detail.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
+
   return (
     <>
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <SetSelectedProduct productId={product.id} />
       <Header />
       <main id="main-content">
