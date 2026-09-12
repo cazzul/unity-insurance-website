@@ -21,7 +21,7 @@ export default function RecursosPage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <section className="bg-unity-navy py-16 text-white lg:py-20">
           <div className="mx-auto max-w-3xl px-4 text-center lg:px-8">
             <h1 className="text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">

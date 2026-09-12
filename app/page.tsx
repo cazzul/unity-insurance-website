@@ -22,7 +22,7 @@ export default function Home() {
     <>
       <AnnouncementBar />
       <Header />
-      <main>
+      <main id="main-content">
         <Hero />
         <SubHero />
         <StorySection />

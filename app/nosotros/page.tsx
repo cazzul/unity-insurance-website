@@ -19,7 +19,7 @@ export default function NosotrosPage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <AboutSection />
         <InsurersMarquee />
         <EventsSection />

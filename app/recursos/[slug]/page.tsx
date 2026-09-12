@@ -38,7 +38,7 @@ export default async function ResourcePage({ params }: Props) {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <section className="bg-unity-navy py-14 text-white lg:py-20">
           <div className="mx-auto max-w-3xl px-4 text-center lg:px-8">
             <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-unity-teal">
