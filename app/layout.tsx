@@ -18,6 +18,10 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://unityinsurancepr.com"),
+  icons: {
+    icon: "/images/brand/unity-shield.webp",
+    apple: "/images/brand/unity-shield.webp",
+  },
   title: "Unity Insurance Group | Seguros en Puerto Rico",
   description: `Seguros de hogar, auto, comercial, cáncer, viajero y escolar en Puerto Rico. Comparamos ${insurers.length} aseguradoras y te explicamos tu póliza antes de firmar. Consulta y orientación gratis.`,
   openGraph: {
