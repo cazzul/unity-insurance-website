@@ -36,9 +36,9 @@ export function Accordion({ items }: AccordionProps) {
                 )}
               />
             </button>
-            {isOpen && (
-              <div className="px-6 pb-5 text-unity-gray">{item.answer}</div>
-            )}
+            <div hidden={!isOpen} className="px-6 pb-5 text-unity-gray">
+              {item.answer}
+            </div>
           </div>
         );
       })}

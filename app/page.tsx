@@ -23,12 +23,12 @@ const organizationSchema = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://unityinsurancepr.com/#organization",
+      "@id": "https://www.unityinsurancepr.com/#organization",
       name: BRAND.name,
-      url: "https://unityinsurancepr.com",
+      url: "https://www.unityinsurancepr.com",
       logo: {
         "@type": "ImageObject",
-        url: "https://unityinsurancepr.com/images/brand/unity-lockup.webp",
+        url: "https://www.unityinsurancepr.com/images/brand/unity-lockup.webp",
       },
       contactPoint: {
         "@type": "ContactPoint",
@@ -41,10 +41,10 @@ const organizationSchema = {
       sameAs: [CONTACT.instagram, CONTACT.facebook],
     },
     {
-      "@type": "LocalBusiness",
-      "@id": "https://unityinsurancepr.com/#localbusiness",
+      "@type": "InsuranceAgency",
+      "@id": "https://www.unityinsurancepr.com/#localbusiness",
       name: BRAND.name,
-      url: "https://unityinsurancepr.com",
+      url: "https://www.unityinsurancepr.com",
       telephone: CONTACT.phone,
       email: CONTACT.email,
       ...(LEGAL.horario ? { openingHours: "Mo-Fr 08:00-17:00" } : {}),
