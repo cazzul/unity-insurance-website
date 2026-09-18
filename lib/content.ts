@@ -254,7 +254,7 @@ export const storyContent = {
   title: "Por qué existe Unity",
   paragraphs: aboutContent.story,
   photo: {
-    src: "/images/eventos/equipo-unity-restaurante.jpg",
+    src: "/images/eventos/team-photo-2024.jpg",
     alt: "El equipo de Unity Insurance junto a aliados y clientes en un restaurante del Viejo San Juan",
   },
   cta: "Conoce más sobre nosotros",
