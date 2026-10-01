@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: BASE_URL, lastModified: new Date("2026-09-12") },
     { url: `${BASE_URL}/nosotros`, lastModified: new Date("2026-09-12") },
     { url: `${BASE_URL}/recursos`, lastModified: new Date("2026-09-12") },
+    { url: `${BASE_URL}/oportunidades`, lastModified: new Date("2026-10-01") },
   ];
 
   const seguroRoutes: MetadataRoute.Sitemap = products.map((p) => ({

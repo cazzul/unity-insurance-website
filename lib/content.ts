@@ -15,8 +15,10 @@ import {
   Scale,
   ShieldCheck,
   Stethoscope,
+  TrendingUp,
   UserRound,
   Users,
+  Wrench,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { BRAND } from "./constants";
@@ -34,6 +36,10 @@ export interface Product {
   badge: string;
   icon: LucideIcon;
   headline?: string;
+  // Nombre completo del seguro en su página (rótulo y título del navegador).
+  // Por defecto "Seguro de {title}"; los títulos que son adjetivos (Comercial)
+  // lo necesitan porque "Seguro de Comercial" no se lee bien.
+  fullName?: string;
 }
 
 export interface IconItem {
@@ -80,6 +86,7 @@ export const products: Product[] = [
     badge: "Para tu negocio",
     icon: Briefcase,
     headline: "Protege lo que construiste",
+    fullName: "Seguro Comercial",
   },
   {
     id: "auto",
@@ -127,6 +134,11 @@ export const products: Product[] = [
     headline: "Protege tu carrera y tu patrimonio ante una reclamación",
   },
 ];
+
+// Nombre del seguro tal como se ve en su página: "Seguro de Hogar", "Seguro Comercial".
+export function seguroNombre(product: Product): string {
+  return product.fullName ?? `Seguro de ${product.title}`;
+}
 
 // Los enlaces con "/#" funcionan desde cualquier página del sitio.
 export const navItems: NavItem[] = [
@@ -272,6 +284,34 @@ export const storyContent = {
   },
   cta: "Conoce más sobre nosotros",
   ctaHref: "/nosotros",
+};
+
+// Reclutamiento de agentes: cierre del home y página /oportunidades. Las
+// frases son las de los rótulos de las oficinas de Unity ("Desarrollamos
+// profesionales"...) más "Te ayudamos en el proceso", confirmada por el
+// dueño. No inventar condiciones (comisiones, requisitos de licencia,
+// proceso de selección) que él no haya dado.
+export const talentContent = {
+  kicker: "Oportunidades",
+  title: "Desarrollamos profesionales",
+  lead: "Ofrecemos capacitación, apoyo, herramientas y oportunidades para desarrollar tu negocio.",
+  welcome: "Agentes nuevos y con experiencia son bienvenidos. Te ayudamos en el proceso.",
+  cta: "Escríbenos por WhatsApp",
+  moreLabel: "Conoce más",
+  moreHref: "/oportunidades",
+  photo: {
+    src: "/images/equipo/unity-grupo-equipo.jpg",
+    alt: "Equipo de Unity Insurance Group reunido para una foto de grupo",
+  },
+  offerTitle: "Qué ofrecemos",
+  // Lo que enumera `lead`, en el mismo orden.
+  pillars: [
+    { title: "Capacitación", icon: GraduationCap },
+    { title: "Apoyo", icon: Handshake },
+    { title: "Herramientas", icon: Wrench },
+    { title: "Oportunidades", icon: TrendingUp },
+  ],
+  closing: "¿Quieres crecer con Unity?",
 };
 
 // Galería de eventos: fotos reales de un evento de Unity (FOTOS/, agosto 2026).
@@ -518,6 +558,7 @@ export const footerLinks = {
     { label: "Guías y Recursos", href: "/#recursos" },
     { label: "Preguntas frecuentes", href: "/#faq" },
     { label: "Nosotros", href: "/nosotros" },
+    { label: "Oportunidades", href: "/oportunidades" },
     { label: "Contacto", href: "/#contacto" },
   ],
   legal: [

@@ -11,12 +11,14 @@ import { ProductGrid } from "@/components/sections/ProductGrid";
 import { RecentResources } from "@/components/sections/RecentResources";
 import { StorySection } from "@/components/sections/StorySection";
 import { SubHero } from "@/components/sections/SubHero";
+import { TalentSection } from "@/components/sections/TalentSection";
 import { WhyUnity } from "@/components/sections/WhyUnity";
 import { BRAND, CONTACT, LEGAL } from "@/lib/constants";
 
 // Marca primero (2026-08-30): el visitante lee y entiende a Unity antes de
-// que se le pida dejar sus datos. El formulario es la conclusión natural,
-// penúltima sección antes del footer; el modal (ConsultModal, en el layout)
+// que se le pida dejar sus datos. El formulario es la conclusión natural
+// para el cliente; después solo va la invitación a agentes (TalentSection,
+// 2026-10-01), que no compite con él. El modal (ConsultModal, en el layout)
 // es la vía rápida desde cualquier botón con intención de contacto.
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -77,6 +79,7 @@ export default function Home() {
         <FAQ />
         <ContactSection />
         <ConsultSection />
+        <TalentSection />
       </main>
       <Footer />
       <MobileActionBar />

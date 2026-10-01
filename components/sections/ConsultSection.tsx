@@ -1,9 +1,10 @@
 import { ConsultForm } from "@/components/ui/ConsultForm";
 import { CONSULT_FORM_ID } from "@/lib/quote-form-context";
 
-// Última sección antes del footer: la conclusión natural de la página, no
-// el segundo bloque. El modal (ConsultModal) es la vía rápida desde
-// cualquier CTA con intención de contacto en el resto del sitio.
+// Cierre de la página para el cliente (después solo va TalentSection, la
+// invitación a agentes): la conclusión natural, no el segundo bloque. El
+// modal (ConsultModal) es la vía rápida desde cualquier CTA con intención
+// de contacto en el resto del sitio.
 export function ConsultSection() {
   return (
     <section

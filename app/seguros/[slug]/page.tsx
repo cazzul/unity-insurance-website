@@ -9,7 +9,7 @@ import { ConsultSection } from "@/components/sections/ConsultSection";
 import { Accordion } from "@/components/ui/Accordion";
 import { OpenConsultButton } from "@/components/ui/OpenConsultButton";
 import { SetSelectedProduct } from "@/components/ui/SetSelectedProduct";
-import { products } from "@/lib/content";
+import { products, seguroNombre } from "@/lib/content";
 import { BRAND } from "@/lib/constants";
 import { productDetails } from "@/lib/product-details";
 
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = products.find((p) => p.id === slug);
   if (!product) return {};
   return {
-    title: `Seguro de ${product.title} en Puerto Rico | ${BRAND.name}`,
+    title: `${seguroNombre(product)} en Puerto Rico | ${BRAND.name}`,
     description: productDetails[slug]?.intro ?? product.description,
   };
 }
@@ -128,7 +128,7 @@ export default async function ProductPage({ params }: Props) {
               <Icon className="h-[30px] w-[30px]" strokeWidth={1.75} aria-hidden />
             </span>
             <p className="mt-6 font-heading text-[13px] font-bold uppercase tracking-[0.2em] text-unity-teal-pale">
-              Seguro de {product.title}
+              {seguroNombre(product)}
             </p>
             <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">
               {product.headline ?? product.title}
