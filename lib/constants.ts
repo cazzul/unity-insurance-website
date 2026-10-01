@@ -36,7 +36,7 @@ export const LEGAL = {
   jurisdiccion: "",
   // Provisional (2026-10-01): el dueño dio calle y pueblo, pero no tiene a mano
   // el número ni el código postal. Completar cuando los confirme.
-  direccion: "Calle Cordero, Jayuya, Puerto Rico",
+  direccion: "Calle Torrado, Jayuya, Puerto Rico",
   // Confirmado por el dueño el 2026-08-29.
   horario: "Lunes a viernes, 8:00 a.m. a 5:00 p.m.",
   disclaimer:
