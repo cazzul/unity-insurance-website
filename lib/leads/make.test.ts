@@ -4,6 +4,7 @@ import type { Lead } from "./normalize";
 
 const ahora = new Date("2026-09-08T13:40:00.000Z");
 const WEBHOOK = "https://hook.us2.make.com/prueba";
+const REGISTRO = "https://airtable.com/apppVYXN8TeViNaNp/tblqpMjs8KSRkT6uY/rec1";
 
 const lead: Lead = {
   nombre: "Ana Pérez",
@@ -18,8 +19,8 @@ const lead: Lead = {
 };
 
 describe("construirPayloadMake", () => {
-  it("arma el payload con fecha local de Puerto Rico y la URL de Airtable", () => {
-    expect(construirPayloadMake(lead, "https://airtable.com/app/tbl/rec1", ahora)).toEqual({
+  it("arma el payload con fecha local de Puerto Rico y el enlace al CRM", () => {
+    expect(construirPayloadMake(lead, REGISTRO, ahora)).toEqual({
       nombre: "Ana Pérez",
       telefono: "+17875550100",
       email: "ana@example.com",
@@ -29,7 +30,7 @@ describe("construirPayloadMake", () => {
       pagina: "https://unityinsurancepr.com/seguros/hogar",
       fecha: "2026-09-08T13:40:00.000Z",
       fecha_local: "08/09/2026 9:40 AM",
-      airtable_url: "https://airtable.com/app/tbl/rec1",
+      crm: REGISTRO,
     });
   });
 
@@ -54,6 +55,15 @@ describe("notificarMake", () => {
     expect(url).toBe(WEBHOOK);
     expect(init.method).toBe("POST");
     expect(JSON.parse(init.body as string)).toEqual(payload);
+  });
+
+  it("limita la petición a 4 s con una señal de aborto", async () => {
+    const spy = vi.spyOn(AbortSignal, "timeout");
+    const fetchMock = vi.fn(async () => new Response("Accepted", { status: 200 }));
+    await notificarMake(construirPayloadMake(lead, "u", ahora), { webhookUrl: WEBHOOK, fetch: fetchMock as unknown as typeof fetch });
+    expect(spy).toHaveBeenCalledWith(4000);
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
   });
 
   it("devuelve false y no lanza si el webhook responde error", async () => {

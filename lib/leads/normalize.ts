@@ -9,9 +9,9 @@ export interface Lead {
   telefono: string | null;
   /** En minúsculas. "" si no llegó. */
   email: string;
-  /** id del producto en el sitio (auto, hogar, comercial, cancer, viajero, escolar) o "". */
+  /** id del producto en el sitio (auto, hogar, comercial, cancer, viajero, escolar, impericia-profesional) o "". */
   productoId: string;
-  /** Opción de "Seguro de Interés" en Airtable. null si no hay producto. */
+  /** Etiqueta del seguro para el aviso de WhatsApp y las Notas del CRM. null si no hay producto. */
   seguro: string | null;
   fuente: Fuente;
   notas: string;
@@ -24,9 +24,9 @@ export type ParseResult =
   | { ok: true; lead: Lead }
   | { ok: false; error: string };
 
-// Opciones de "Seguro de Interés" en la tabla Leads de Airtable.
-// Si cambian los productos del sitio (lib/content.ts) o las opciones en
-// Airtable, hay que actualizar este mapa.
+// Etiqueta de cada producto del sitio en el aviso de WhatsApp. Un producto
+// nuevo de lib/content.ts necesita su entrada aquí (lo verifica
+// content.test.ts); sin ella el lead llega como "Otro".
 const SEGURO_POR_PRODUCTO: Record<string, string> = {
   auto: "Auto",
   hogar: "Hogar",
@@ -34,6 +34,7 @@ const SEGURO_POR_PRODUCTO: Record<string, string> = {
   cancer: "Cáncer",
   viajero: "Viajero",
   escolar: "Escolar",
+  "impericia-profesional": "Impericia Profesional",
 };
 
 export function texto(v: unknown): string {

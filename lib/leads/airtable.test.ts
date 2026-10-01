@@ -1,95 +1,111 @@
 import { describe, expect, it, vi } from "vitest";
-import {
-  AIRTABLE_BASE_ID,
-  AIRTABLE_LEADS_TABLE_ID,
-  construirCampos,
-  crearLeadEnAirtable,
-} from "./airtable";
+import { construirCampos, crearContactoEnAirtable } from "./airtable";
 import type { Lead } from "./normalize";
 
-const ahora = new Date("2026-09-08T13:40:00.000Z");
-
-const leadWeb: Lead = {
-  nombre: "Ana Pérez",
-  telefono: "+17875550100",
-  email: "ana@example.com",
-  productoId: "hogar",
-  seguro: "Hogar",
-  fuente: "Formulario web",
-  notas: "",
-  pagina: "https://unityinsurancepr.com/seguros/hogar",
-  consentimiento: true,
+const ahora = new Date("2026-09-08T13:40:00.000Z"); // 08/09/2026 9:40 AM en PR
+const formulario: Lead = {
+  nombre: "Ana Pérez", telefono: "+17875550100", email: "ana@example.com",
+  productoId: "hogar", seguro: "Hogar", fuente: "Formulario web", notas: "Quiero revisar mi póliza",
+  pagina: "https://unityinsurancepr.com/seguros/hogar", consentimiento: true,
 };
-
-const leadRecurso: Lead = {
-  nombre: "Luis Ortiz",
-  telefono: null,
-  email: "luis@example.com",
-  productoId: "",
-  seguro: null,
-  fuente: "Recurso (lead magnet)",
-  notas: "Lead magnet: Quiz huracán (resultado)",
-  pagina: "https://unityinsurancepr.com/recursos/quiz-huracan",
-  consentimiento: true,
+const recurso: Lead = {
+  nombre: "Luis Ortiz", telefono: null, email: "luis@example.com", productoId: "", seguro: null,
+  fuente: "Recurso (lead magnet)", notas: "Lead magnet: Quiz huracán (resultado)",
+  pagina: "https://unityinsurancepr.com/recursos/quiz-huracan", consentimiento: false,
 };
 
 describe("construirCampos", () => {
-  it("mapea un lead del formulario de consulta a las columnas de Leads", () => {
-    expect(construirCampos(leadWeb, ahora)).toEqual({
-      Nombre: "Ana Pérez",
-      Teléfono: "+17875550100",
-      "Correo Electrónico": "ana@example.com",
-      "Seguro de Interés": "Hogar",
-      Status: "Nuevo",
-      "Fecha de Llegada": "2026-09-08T13:40:00.000Z",
-      Fuente: "Formulario web",
-      "Notas del formulario": "Página: https://unityinsurancepr.com/seguros/hogar",
-      Consentimiento: true,
+  it("arma los campos de Contactos por ID para un lead de formulario", () => {
+    expect(construirCampos(formulario, ahora)).toEqual({
+      fldufB2e3CQcgJsJR: "Ana Pérez",
+      fldvmDLxIzhcN9Bdw: "+17875550100",
+      fldqQyhX2M8cZK5ZJ: "ana@example.com",
+      fldoUaEN5AesdFj49: "Prospecto",
+      fldqcqzf8LIKC7mM1: "Página Web",
+      fldAygh93t8c6sZH3: "Prospecto Nuevo",
+      fldLhd7dArz3gJjHB: [
+        "Seguro de interés: Hogar",
+        "Fuente: Formulario web",
+        "Página: https://unityinsurancepr.com/seguros/hogar",
+        "Llegó: 08/09/2026 9:40 AM",
+        "Consentimiento: sí",
+        "Notas del visitante: Quiero revisar mi póliza",
+      ].join("\n"),
     });
   });
 
-  it("omite teléfono, seguro y consentimiento cuando no aplican", () => {
-    const campos = construirCampos({ ...leadRecurso, consentimiento: false }, ahora);
-    expect(campos).not.toHaveProperty("Teléfono");
-    expect(campos).not.toHaveProperty("Seguro de Interés");
-    expect(campos).not.toHaveProperty("Consentimiento");
-    expect(campos["Notas del formulario"]).toBe(
-      "Página: https://unityinsurancepr.com/recursos/quiz-huracan\nNotas: Lead magnet: Quiz huracán (resultado)",
-    );
+  it("omite teléfono, seguro y consentimiento en un lead de recurso", () => {
+    expect(construirCampos(recurso, ahora)).toEqual({
+      fldufB2e3CQcgJsJR: "Luis Ortiz",
+      fldqQyhX2M8cZK5ZJ: "luis@example.com",
+      fldoUaEN5AesdFj49: "Prospecto",
+      fldqcqzf8LIKC7mM1: "Página Web",
+      fldAygh93t8c6sZH3: "Prospecto Nuevo",
+      fldLhd7dArz3gJjHB: [
+        "Fuente: Recurso (lead magnet)",
+        "Página: https://unityinsurancepr.com/recursos/quiz-huracan",
+        "Llegó: 08/09/2026 9:40 AM",
+        "Notas del visitante: Lead magnet: Quiz huracán (resultado)",
+      ].join("\n"),
+    });
   });
 
-  it("anota el producto original cuando cae en Otro", () => {
-    const campos = construirCampos({ ...leadWeb, productoId: "vida", seguro: "Otro" }, ahora);
-    expect(campos["Seguro de Interés"]).toBe("Otro");
-    expect(campos["Notas del formulario"]).toContain("Producto del sitio: vida");
+  it("omite el correo vacío y las notas del visitante si no hay", () => {
+    const campos = construirCampos({ ...formulario, email: "", notas: "" }, ahora);
+    expect(campos).not.toHaveProperty("fldqQyhX2M8cZK5ZJ");
+    expect(campos["fldLhd7dArz3gJjHB"]).not.toContain("Notas del visitante");
+  });
+
+  it("escribe tal cual un producto desconocido (Otro)", () => {
+    const campos = construirCampos({ ...formulario, productoId: "vida", seguro: "Otro" }, ahora);
+    expect(campos["fldLhd7dArz3gJjHB"].split("\n")[0]).toBe("Seguro de interés: Otro");
+  });
+
+  it("conserva tildes, ñ, apóstrofos y emojis del nombre", () => {
+    const campos = construirCampos({ ...formulario, nombre: "Ñandú O'Neil 😀" }, ahora);
+    expect(campos["fldufB2e3CQcgJsJR"]).toBe("Ñandú O'Neil 😀");
   });
 });
 
-describe("crearLeadEnAirtable", () => {
-  it("hace POST a la tabla Leads con el token y devuelve id y url", async () => {
-    const fetchMock = vi.fn(async () => new Response(JSON.stringify({ id: "recABC" }), { status: 200 }));
-    const r = await crearLeadEnAirtable(leadWeb, {
-      apiKey: "pat_test",
-      fetch: fetchMock as unknown as typeof fetch,
-      now: () => ahora,
+describe("crearContactoEnAirtable", () => {
+  const llamar = (respuesta: () => Response) => {
+    const fetchMock = vi.fn(async () => respuesta());
+    const promesa = crearContactoEnAirtable(formulario, {
+      apiKey: "pat_test", fetch: fetchMock as unknown as typeof fetch, now: () => ahora,
     });
-    expect(r).toEqual({
+    return { fetchMock, promesa };
+  };
+
+  it("crea el registro y devuelve su id y su URL", async () => {
+    const { fetchMock, promesa } = llamar(() => new Response(JSON.stringify({ id: "recABC" }), { status: 200 }));
+    await expect(promesa).resolves.toEqual({
       id: "recABC",
-      url: `https://airtable.com/${AIRTABLE_BASE_ID}/${AIRTABLE_LEADS_TABLE_ID}/recABC`,
+      url: "https://airtable.com/apppVYXN8TeViNaNp/tblqpMjs8KSRkT6uY/recABC",
     });
     const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
-    expect(url).toBe(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_LEADS_TABLE_ID}`);
+    expect(url).toBe("https://api.airtable.com/v0/apppVYXN8TeViNaNp/tblqpMjs8KSRkT6uY");
     expect(init.method).toBe("POST");
-    expect((init.headers as Record<string, string>).Authorization).toBe("Bearer pat_test");
-    expect(JSON.parse(init.body as string)).toEqual({ fields: construirCampos(leadWeb, ahora) });
+    expect(init.headers).toEqual({ Authorization: "Bearer pat_test", "Content-Type": "application/json" });
+    expect(JSON.parse(init.body as string).fields["fldufB2e3CQcgJsJR"]).toBe("Ana Pérez");
   });
 
-  it("lanza AirtableError con el status si la API responde error", async () => {
-    const fetchMock = vi.fn(
-      async () => new Response('{"error":{"type":"INVALID_MULTIPLE_CHOICE_OPTIONS"}}', { status: 422 }),
-    );
-    await expect(
-      crearLeadEnAirtable(leadWeb, { apiKey: "pat_test", fetch: fetchMock as unknown as typeof fetch, now: () => ahora }),
-    ).rejects.toMatchObject({ name: "AirtableError", status: 422 });
+  it("limita la petición a 6 s con una señal de aborto", async () => {
+    const spy = vi.spyOn(AbortSignal, "timeout");
+    const { fetchMock, promesa } = llamar(() => new Response(JSON.stringify({ id: "recABC" }), { status: 200 }));
+    await promesa;
+    expect(spy).toHaveBeenCalledWith(6000);
+    const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
+    spy.mockRestore();
+  });
+
+  it("lanza AirtableError con el estado cuando la API rechaza", async () => {
+    const { promesa } = llamar(() => new Response('{"error":{"type":"INVALID_PERMISSIONS_OR_MODEL_NOT_FOUND"}}', { status: 403 }));
+    await expect(promesa).rejects.toMatchObject({ name: "AirtableError", status: 403 });
+  });
+
+  it("propaga el error de red", async () => {
+    const { promesa } = llamar(() => { throw new TypeError("fetch failed"); });
+    await expect(promesa).rejects.toThrow("fetch failed");
   });
 });

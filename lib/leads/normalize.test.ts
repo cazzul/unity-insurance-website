@@ -40,8 +40,9 @@ describe("mapSeguro", () => {
     ["cancer", "Cáncer"],
     ["comercial", "Comercial"],
     ["escolar", "Escolar"],
-  ])("mapea %s a la opción %s de Airtable", (id, opcion) => {
-    expect(mapSeguro(id)).toBe(opcion);
+    ["impericia-profesional", "Impericia Profesional"],
+  ])("mapea %s a la etiqueta %s del aviso de WhatsApp", (id, etiqueta) => {
+    expect(mapSeguro(id)).toBe(etiqueta);
   });
 
   it("devuelve null sin producto y Otro con un id desconocido", () => {

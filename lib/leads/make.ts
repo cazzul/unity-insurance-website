@@ -1,6 +1,6 @@
 // Aviso al escenario de Make "Unity Seguros — Leads a WhatsApp" (webhook),
 // que reenvía el lead al grupo de WhatsApp "Leads Unity" vía Green API.
-// Es "mejor esfuerzo": cuando se llama aquí, el lead ya está en Airtable.
+// Un `false` no es fatal si el lead ya quedó en Airtable: la ruta decide según haya guardado.
 import { formatFechaPR, type Lead } from "./normalize";
 
 export interface MakePayload {
@@ -15,10 +15,11 @@ export interface MakePayload {
   fecha: string;
   /** "08/09/2026 9:40 AM", hora de Puerto Rico */
   fecha_local: string;
-  airtable_url: string;
+  /** URL del registro en Airtable, o el aviso de que no se guardó */
+  crm: string;
 }
 
-export function construirPayloadMake(lead: Lead, airtableUrl: string, ahora: Date): MakePayload {
+export function construirPayloadMake(lead: Lead, crm: string, ahora: Date): MakePayload {
   return {
     nombre: lead.nombre,
     telefono: lead.telefono ?? "No indicado",
@@ -29,7 +30,7 @@ export function construirPayloadMake(lead: Lead, airtableUrl: string, ahora: Dat
     pagina: lead.pagina,
     fecha: ahora.toISOString(),
     fecha_local: formatFechaPR(ahora),
-    airtable_url: airtableUrl,
+    crm,
   };
 }
 
@@ -43,7 +44,7 @@ export async function notificarMake(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-      signal: AbortSignal.timeout(5000),
+      signal: AbortSignal.timeout(4000),
     });
     if (!res.ok) console.error("Make webhook error:", res.status, await res.text());
     return res.ok;

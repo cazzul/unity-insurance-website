@@ -1,3 +1,5 @@
+> **Reemplazado en parte el 2026-10-01** por `2026-10-01-leads-airtable-contactos-design.md`: la base "Unity Insurance CRM" y su tabla "Leads" ya no existen; el flujo actual escribe en Contactos de "Unity Base De Datos".
+
 # Diseño: leads del sitio → Airtable CRM → WhatsApp (Green API)
 
 Fecha: 2026-09-08. Autor: Claude (Agente B, integraciones) con auditoría en vivo
