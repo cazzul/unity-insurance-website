@@ -9,9 +9,14 @@ export function InsurersMarquee() {
       id="aseguradoras"
       className="overflow-hidden border-y border-unity-navy/10 bg-unity-light py-8"
     >
-      <p className="mb-6 text-center text-sm font-semibold uppercase tracking-wider text-unity-gray">
-        Trabajamos con {insurers.length} aseguradoras locales e internacionales
-      </p>
+      <div className="mb-6 px-4 text-center">
+        <p className="text-sm font-semibold uppercase tracking-wider text-unity-gray">
+          Trabajamos con {insurers.length} aseguradoras locales e internacionales
+        </p>
+        <p className="mt-2 text-sm text-unity-gray">
+          Cada una se especializa en distintos seguros. Comparamos las que ofrecen el tuyo.
+        </p>
+      </div>
       <div className="relative flex overflow-hidden">
         <ul className="animate-marquee flex shrink-0 items-center" aria-label="Aseguradoras">
           {doubled.map((insurer, i) => (

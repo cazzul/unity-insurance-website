@@ -10,7 +10,7 @@ import { resources } from "@/lib/resources";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: `Recursos gratis | ${BRAND.name}`,
+  title: `Guías y Recursos | ${BRAND.name}`,
   description: "Quizzes y guías para entender tu póliza antes de firmar o renovar.",
 };
 
@@ -25,10 +25,10 @@ export default function RecursosPage() {
         <section className="bg-unity-navy py-16 text-white lg:py-20">
           <div className="mx-auto max-w-3xl px-4 text-center lg:px-8">
             <h1 className="text-3xl font-extrabold leading-tight tracking-tight md:text-5xl">
-              Recursos gratis
+              Guías y Recursos
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/85">
-              Quizzes y guías para entender tu póliza, sin jerga y sin costo.
+              Quizzes y guías para entender tu póliza, sin jerga.
             </p>
           </div>
         </section>

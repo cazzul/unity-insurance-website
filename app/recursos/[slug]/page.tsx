@@ -45,7 +45,8 @@ export default async function ResourcePage({ params }: Props) {
               <Icon className="h-[30px] w-[30px]" strokeWidth={1.75} aria-hidden />
             </span>
             <p className="mt-6 font-heading text-[13px] font-bold uppercase tracking-[0.2em] text-unity-teal-pale">
-              Recurso gratis{resource.pending ? " · De prueba" : ""}
+              {resource.kind === "quiz" ? "Quiz" : "Guía"}
+              {resource.pending ? " · De prueba" : ""}
             </p>
             <h1 className="mt-3 text-3xl font-extrabold leading-tight tracking-tight md:text-4xl">
               {resource.title}

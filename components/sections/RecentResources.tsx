@@ -4,9 +4,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { resources } from "@/lib/resources";
 import { cn } from "@/lib/utils";
 
-// Recursos más recientes: se leen completos en su propia página, sin
-// formulario de por medio. La captura de correo ocurre después de leer
-// (ver ResultsGate y ScrollLeadCapture en /recursos/[slug]).
+// Guías y Recursos (los 3 más recientes): se leen completos en su propia
+// página, sin formulario de por medio. La captura de correo ocurre después
+// de leer (ver ResultsGate y ScrollLeadCapture en /recursos/[slug]).
 export function RecentResources() {
   const recent = resources.slice(0, 3);
 
@@ -14,7 +14,7 @@ export function RecentResources() {
     <section id="recursos" className="scroll-mt-24 lg:scroll-mt-[150px] bg-unity-light py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <SectionHeading
-          title="Recursos más recientes"
+          title="Guías y Recursos"
           subtitle="Guías cortas para entender tu póliza antes de firmar o renovar."
         />
 

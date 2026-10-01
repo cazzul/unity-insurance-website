@@ -16,9 +16,15 @@ export function ProductGrid() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {/* flex-wrap centrado: la última tarjeta queda al centro cuando sobra una. */}
+        <div className="flex flex-wrap justify-center gap-6">
           {products.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
+            <div
+              key={product.id}
+              className="flex w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] [&>article]:flex-1"
+            >
+              <ProductCard product={product} index={index} />
+            </div>
           ))}
         </div>
       </div>

@@ -29,7 +29,7 @@ export function Header() {
             alt="Unity Insurance Group"
             width={2757}
             height={1540}
-            className="h-9 max-h-[44px] w-auto object-contain md:h-10"
+            className="h-11 w-auto object-contain md:h-[52px]"
             style={{ width: "auto" }}
             priority
           />

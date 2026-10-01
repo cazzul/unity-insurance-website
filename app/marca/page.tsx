@@ -37,8 +37,8 @@ const typeScale = [
   { sample: "Nuestros servicios", spec: "Título de sección\n46/50 · 800", className: "font-heading text-4xl font-extrabold leading-[1.08] tracking-[-0.015em] text-unity-navy md:text-[46px]" },
   { sample: "Seguro de hogar", spec: "Subtítulo\n26/31 · 700", className: "font-heading text-[26px] font-bold leading-tight text-unity-navy" },
   { sample: "Protección comercial", spec: "Etiqueta\n15 · 700 · 0.22em · caja alta", className: "font-heading text-[15px] font-bold uppercase tracking-[0.22em] text-unity-teal" },
-  { sample: `Agenda tu consulta en una llamada. Comparamos con ${15} aseguradoras y te decimos qué cubre cada una.`, spec: "Entradilla\n22/34 · 400", className: "max-w-3xl text-[22px] leading-[1.55] text-unity-gray-mid" },
-  { sample: "Unity es una oficina de servicios de seguros en Puerto Rico. Trabajamos con familias y con negocios: hogar, comercial, auto, cáncer, viajero y escolar.", spec: "Cuerpo\n17/28 · 400", className: "max-w-3xl text-[17px] leading-[1.65] text-unity-ink" },
+  { sample: "Agenda tu consulta en una llamada. Comparamos opciones y te decimos qué cubre cada una.", spec: "Entradilla\n22/34 · 400", className: "max-w-3xl text-[22px] leading-[1.55] text-unity-gray-mid" },
+  { sample: "Unity es una oficina de servicios de seguros en Puerto Rico. Trabajamos con familias y con negocios: hogar, comercial, auto, cáncer, viajero, escolar e impericia profesional.", spec: "Cuerpo\n17/28 · 400", className: "max-w-3xl text-[17px] leading-[1.65] text-unity-ink" },
 ];
 
 const logoRules = [
@@ -65,7 +65,7 @@ const voices = [
 
 const writeLikeThis = [
   "\"Llama al 787-922-5558 y te decimos qué cubre cada aseguradora.\"",
-  "\"Comparamos 15 aseguradoras. Tú escoges.\"",
+  "\"Comparamos opciones. Tú escoges.\"",
   "\"¿Abriste negocio este año? Hay coberturas que necesitas antes de firmar el arrendamiento.\"",
 ];
 

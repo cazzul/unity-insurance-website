@@ -14,6 +14,7 @@ import {
   Ribbon,
   Scale,
   ShieldCheck,
+  Stethoscope,
   UserRound,
   Users,
 } from "lucide-react";
@@ -58,7 +59,9 @@ export const announcement = {
   text: "TEMPORADA DE HURACANES: REVISA TU PÓLIZA ANTES DE LA PRÓXIMA TORMENTA",
 };
 
-// Seis líneas de seguro (decisión del dueño: mantener estas seis).
+// Líneas de seguro (decisión del dueño). Un producto nuevo necesita además su
+// página en product-details.ts y su etiqueta en lib/leads/normalize.ts
+// (lo verifica content.test.ts).
 export const products: Product[] = [
   {
     id: "hogar",
@@ -114,6 +117,15 @@ export const products: Product[] = [
     icon: GraduationCap,
     headline: "Protege a tus hijos dentro y fuera de la escuela",
   },
+  {
+    id: "impericia-profesional",
+    title: "Impericia Profesional",
+    description:
+      "Un error, real o alegado, en el ejercicio de tu profesión puede terminar en una demanda. Cuenta con defensa legal y respaldo cuando llega la reclamación.",
+    badge: "Para profesionales",
+    icon: Stethoscope,
+    headline: "Protege tu carrera y tu patrimonio ante una reclamación",
+  },
 ];
 
 // Los enlaces con "/#" funcionan desde cualquier página del sitio.
@@ -129,7 +141,7 @@ export const navItems: NavItem[] = [
   {
     label: "Guías y Recursos",
     children: [
-      { label: "Recursos gratis", href: "/#recursos" },
+      { label: "Quizzes y guías", href: "/#recursos" },
       { label: "Preguntas frecuentes", href: "/#faq" },
     ],
   },
@@ -139,7 +151,7 @@ export const heroContent = {
   headline: BRAND.name,
   tagline: BRAND.tagline,
   subtitle:
-    "Seguros para tu familia y tu negocio en Puerto Rico. Comparamos {n} aseguradoras y te explicamos tu póliza antes de firmar.",
+    "Seguros para tu familia y tu negocio en Puerto Rico. Comparamos opciones y te explicamos tu póliza antes de firmar.",
   cta: "Agenda tu consulta y orientación",
   ctaSecondary: "Llámanos",
 };
@@ -162,9 +174,9 @@ export const trustStats: {
   { value: "1 a 1", label: "servicio personalizado en cada etapa" },
 ];
 
-// Por qué Unity: tres puntos de diferenciación. Fuentes: _FRAMEWORK_COPY.md
-// (diferenciador) y sistema de diseño ("Una llamada. Catorce opciones").
-// {n} se reemplaza por el número real de aseguradoras.
+// Por qué Unity: tres puntos de diferenciación. Fuente: _FRAMEWORK_COPY.md
+// (diferenciador). No son las mismas aseguradoras para todos los seguros:
+// no prometer un número de compañías por comparación.
 export const whyUnityPoints: IconItem[] = [
   {
     title: "Te explicamos antes de firmar",
@@ -172,8 +184,9 @@ export const whyUnityPoints: IconItem[] = [
     icon: MessageSquareText,
   },
   {
-    title: "Comparamos {n} aseguradoras",
-    description: "Das tus datos una vez y buscamos precio y cubierta en {n} compañías. Tú escoges.",
+    title: "Comparamos opciones por ti",
+    description:
+      "Das tus datos una vez y buscamos precio y cubierta entre las aseguradoras que ofrecen el seguro que necesitas. Tú escoges.",
     icon: Scale,
   },
   {
@@ -347,9 +360,9 @@ export const insurers: Insurer[] = [
     logo: { src: "/images/insurers/multinational.png", width: 569, height: 120 },
   },
   {
-    name: "Triple-S",
-    url: "https://salud.grupotriples.com",
-    logo: { src: "/images/insurers/triple-s.png", width: 734, height: 120 },
+    name: "Triple-S Propiedad",
+    url: "https://propiedad.grupotriples.com",
+    logo: { src: "/images/insurers/triple-s-propiedad.svg", width: 721, height: 124 },
   },
   {
     name: "Cooperativa de Seguros Múltiples",
@@ -461,11 +474,6 @@ export const faqItems: FaqItem[] = [
       "Depende de lo que quieras proteger, del valor y de la aseguradora. Comparamos opciones y te mostramos el precio real antes de decidir.",
   },
   {
-    question: "¿Cuánto cuesta la consulta y orientación?",
-    answer:
-      "Nada. Es gratis. Con gusto revisamos tu póliza contigo y te decimos qué tienes y qué te falta.",
-  },
-  {
     question: "¿Tengo que comprar algo después de la consulta?",
     answer:
       "No. Revisamos lo que tienes, te decimos qué te falta y tú decides. Si tu póliza actual está bien, también te lo decimos.",
@@ -492,7 +500,7 @@ export const faqItems: FaqItem[] = [
   },
   {
     question: "¿Qué aseguradoras representan?",
-    answer: `Trabajamos con ${insurers.length} aseguradoras locales e internacionales, entre ellas Universal, MAPFRE, Multinational, Triple-S, Cooperativa de Seguros Múltiples, Chubb, AIG y Liberty Mutual. Comparamos opciones y te mostramos qué cubre cada una.`,
+    answer: `Trabajamos con ${insurers.length} aseguradoras locales e internacionales, entre ellas Universal, MAPFRE, Multinational, Triple-S Propiedad, Cooperativa de Seguros Múltiples, Chubb, AIG y Liberty Mutual. Cada una se especializa en distintos seguros, así que comparamos las que ofrecen el que necesitas y te mostramos qué cubre cada una.`,
   },
   {
     question: "¿Cómo los contacto?",
@@ -507,7 +515,7 @@ export const footerLinks = {
     href: `/seguros/${p.id}`,
   })),
   recursos: [
-    { label: "Recursos gratis", href: "/#recursos" },
+    { label: "Guías y Recursos", href: "/#recursos" },
     { label: "Preguntas frecuentes", href: "/#faq" },
     { label: "Nosotros", href: "/nosotros" },
     { label: "Contacto", href: "/#contacto" },

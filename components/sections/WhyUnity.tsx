@@ -1,4 +1,4 @@
-import { insurers, whyUnityPoints } from "@/lib/content";
+import { whyUnityPoints } from "@/lib/content";
 import { BRAND } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -6,8 +6,6 @@ import { cn } from "@/lib/utils";
 // (alternando navy y teal, trazo 1.75). El eslogan reaparece aquí, discreto,
 // como segundo punto de énfasis (el primero fue el hero).
 export function WhyUnity() {
-  const n = String(insurers.length);
-
   return (
     <section id="por-que-unity" className="scroll-mt-24 lg:scroll-mt-[150px] bg-white py-20 lg:py-28">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
@@ -37,10 +35,10 @@ export function WhyUnity() {
                   <Icon className="h-[30px] w-[30px]" strokeWidth={1.75} aria-hidden />
                 </span>
                 <h3 className="mt-6 text-[22px] font-bold leading-tight text-unity-navy">
-                  {point.title.replace("{n}", n)}
+                  {point.title}
                 </h3>
                 <p className="mt-3 text-base leading-relaxed text-unity-gray-mid">
-                  {point.description.replaceAll("{n}", n)}
+                  {point.description}
                 </p>
               </li>
             );

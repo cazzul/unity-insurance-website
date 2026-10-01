@@ -2,7 +2,7 @@ import { BookOpen, CarFront, ClipboardCheck, HousePlus } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { FaqItem } from "./content";
 
-// Recursos gratis de Unity. Contenido escrito a partir del material técnico
+// Quizzes y guías de Unity. Contenido escrito a partir del material técnico
 // de auto y hogar (2026-08-29), verídico pero de prueba: no es todavía el
 // texto final aprobado por el dueño (ver PENDIENTES.md). Se leen completos
 // en /recursos/[slug], sin puerta previa. Sin precios.
@@ -100,7 +100,7 @@ export const resources: Resource[] = [
         maxNo: 2,
         level: "mid",
         title: "Tienes huecos que se pueden cerrar rápido",
-        text: "Cada 'no' es una exposición concreta. Te orientamos sin costo para cerrarlas.",
+        text: "Cada 'no' es una exposición concreta. Te orientamos para cerrarlas.",
       },
       {
         maxNo: 5,
@@ -173,7 +173,7 @@ export const resources: Resource[] = [
         maxNo: 5,
         level: "mid",
         title: "Hay preguntas sin contestar",
-        text: "Antes de firmar la renovación, conviene revisar esto con calma. Te orientamos sin costo.",
+        text: "Antes de firmar la renovación, conviene revisar esto con calma. Te orientamos.",
       },
       {
         maxNo: 10,
@@ -252,7 +252,7 @@ export const resources: Resource[] = [
           "Porque combina varias cubiertas principales en una. Aun así excluye robo simulado, negligencia extrema y eventos que no contrataste.",
       },
     ],
-    closing: "¿Quieres saber cuál te conviene? Te orientamos sin costo.",
+    closing: "¿Quieres saber cuál te conviene? Te orientamos.",
   },
   {
     slug: "5-errores-seguro-auto",

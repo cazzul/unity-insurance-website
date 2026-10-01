@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { heroContent, insurers } from "@/lib/content";
+import { heroContent } from "@/lib/content";
 import { CONTACT } from "@/lib/constants";
 import { useQuoteForm } from "@/lib/quote-form-context";
 import { HeroBackdrop } from "./HeroBackdrop";
@@ -24,7 +24,7 @@ export function Hero() {
           {heroContent.tagline}
         </p>
         <p className="mt-3 max-w-xl text-lg text-white/85">
-          {heroContent.subtitle.replace("{n}", String(insurers.length))}
+          {heroContent.subtitle}
         </p>
         <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
           <Button

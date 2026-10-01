@@ -16,6 +16,8 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
+const description = `Seguros de hogar, auto, comercial, cáncer, viajero, escolar e impericia profesional en Puerto Rico. Trabajamos con ${insurers.length} aseguradoras y te explicamos tu póliza antes de firmar.`;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://unityinsurancepr.com"),
   icons: {
@@ -23,17 +25,17 @@ export const metadata: Metadata = {
     apple: "/images/brand/unity-shield.webp",
   },
   title: "Unity Insurance Group | Seguros en Puerto Rico",
-  description: `Seguros de hogar, auto, comercial, cáncer, viajero y escolar en Puerto Rico. Comparamos ${insurers.length} aseguradoras y te explicamos tu póliza antes de firmar. Consulta y orientación gratis.`,
+  description,
   openGraph: {
     locale: "es_PR",
     title: "Unity Insurance Group | Seguros en Puerto Rico",
-    description: `Seguros de hogar, auto, comercial, cáncer, viajero y escolar en Puerto Rico. Comparamos ${insurers.length} aseguradoras y te explicamos tu póliza antes de firmar. Consulta y orientación gratis.`,
+    description,
     images: ["/logo.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Unity Insurance Group | Seguros en Puerto Rico",
-    description: `Seguros de hogar, auto, comercial, cáncer, viajero y escolar en Puerto Rico. Comparamos ${insurers.length} aseguradoras y te explicamos tu póliza antes de firmar.`,
+    description,
     images: ["/logo.png"],
   },
 };

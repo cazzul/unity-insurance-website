@@ -383,4 +383,66 @@ export const productDetails: Record<string, ProductDetail> = {
     pending:
       "Estamos preparando la guía completa de este seguro. Mientras tanto, agenda una consulta y te orientamos según tu escuela.",
   },
+
+  // Fuentes públicas (2026-10): páginas de producto de PRMD, SIMED,
+  // Triple-S Propiedad y MAPFRE. Las cifras son referencias públicas, no
+  // cotizaciones; las exclusiones exactas viven en los Términos y Condiciones
+  // de cada póliza, por eso aquí solo se listan puntos que las fuentes sustentan.
+  "impericia-profesional": {
+    slug: "impericia-profesional",
+    intro:
+      "Una demanda por un error, real o alegado, en el ejercicio de tu profesión puede costarte años de trabajo y tu patrimonio. El seguro de impericia profesional te da defensa legal y respaldo económico cuando llega la reclamación. Te explicamos cómo funciona antes de firmar.",
+    covers: [
+      "Defensa legal: los gastos de abogados y del proceso cuando te demandan. Algunas pólizas ofrecen gastos de defensa que no reducen el límite de responsabilidad; lo confirmamos en cada una.",
+      "Indemnización por daños a terceros: lo que la póliza paga cuando una reclamación procede por actos, errores u omisiones en el ejercicio de tu profesión, hasta el límite que contrates.",
+      "Límites según tu profesión y la aseguradora. Como referencia pública, hay opciones desde $25,000/$75,000 para profesionales de la salud misceláneos, y desde $100,000 hasta $3,000,000 para médicos, hospitales y laboratorios, según la combinación que se elija.",
+      "Cubierta de reclamaciones hechas (claims made): protege por incidentes ocurridos en o después de la fecha de retroactividad, siempre que la reclamación se reporte mientras la póliza está vigente.",
+      "Cobertura de cola (tail): extiende el período para reportar reclamaciones por incidentes ocurridos mientras tenías la póliza, incluso después de que termine. Si te retiras o cambias de aseguradora, pregúntanos por ella.",
+    ],
+    excludes: [
+      "Incidentes ocurridos antes de la fecha de retroactividad: en una póliza claims made quedan fuera aunque la reclamación llegue durante la vigencia.",
+      "Reclamaciones presentadas después de que la póliza vence o se cancela, salvo que tengas cobertura de cola.",
+      "Períodos con la prima sin pagar: la aseguradora no responde si no se cumplió con los pagos. Por eso conviene renovar a tiempo y sin huecos.",
+      "Las exclusiones y limitaciones completas están en los Términos y Condiciones de cada póliza. Las leemos contigo antes de que firmes.",
+    ],
+    whoCanApply: [
+      "Profesionales de la salud: médicos y cirujanos, dentistas, enfermeras graduadas, terapistas (físicos, ocupacionales y del habla), audiólogos, optómetras, patólogos del habla, nutricionistas, naturópatas, podiatras y quiroprácticos. Residentes, internos y estudiantes de medicina también tienen opciones.",
+      "Hospitales, hospicios, laboratorios clínicos y propietarios de negocios de salud, con pólizas para la institución.",
+      "Abogados: existe responsabilidad profesional para la abogacía, que protege ante reclamaciones por negligencia, errores u omisiones en el ejercicio de la profesión.",
+      "¿Otra profesión? Cuéntanos cuál es y vemos qué opciones hay disponibles.",
+      "Para emitir, las aseguradoras suelen pedir la solicitud, tu licencia profesional y tu experiencia. A laboratorios y hospitales también les piden estados financieros.",
+    ],
+    faqs: [
+      {
+        question: "¿Qué es el seguro de impericia profesional?",
+        answer:
+          "Es el seguro que te protege si alguien te reclama por un acto, error u omisión en el ejercicio de tu profesión. Paga tu defensa legal y, si la reclamación procede, la indemnización hasta el límite de tu póliza. En el sector salud se conoce como impericia médica; para otras profesiones, como responsabilidad profesional.",
+      },
+      {
+        question: "¿Qué significa claims made y por qué importa?",
+        answer:
+          "Significa que la póliza responde por las reclamaciones que se presentan mientras está vigente, y solo por incidentes ocurridos en o después de la fecha de retroactividad. Si cambias de aseguradora, revisa que la nueva póliza reconozca tu fecha de retroactividad o contrata cobertura de cola; de lo contrario, un incidente anterior puede quedar sin protección.",
+      },
+      {
+        question: "¿Qué es la cobertura de cola (tail)?",
+        answer:
+          "Es una extensión del período para reportar reclamaciones por incidentes que ocurrieron mientras tenías la póliza. Importa cuando te retiras, cierras tu práctica o cambias de aseguradora, porque una reclamación puede llegar años después del incidente.",
+      },
+      {
+        question: "¿Los gastos de defensa reducen mi límite?",
+        answer:
+          "Depende de la póliza. Algunas aseguradoras ofrecen gastos de defensa que no reducen el límite de responsabilidad; en otras pólizas lo que se gasta en tu defensa puede descontarse del límite. Lo revisamos contigo antes de firmar.",
+      },
+      {
+        question: "¿Qué límite necesito?",
+        answer:
+          "Depende de tu profesión, tu especialidad y los requisitos de las instituciones o contratos con los que trabajas. Como referencia pública, hay opciones desde $25,000/$75,000 hasta $3,000,000 según el profesional. Te ayudamos a elegir el que tenga sentido para tu caso.",
+      },
+      {
+        question: "¿Qué necesito para solicitarlo?",
+        answer:
+          "Normalmente la solicitud, tu licencia profesional y tu experiencia; para laboratorios y hospitales, también estados financieros. Te ayudamos a prepararla y a comparar las opciones que hay para tu profesión.",
+      },
+    ],
+  },
 };
